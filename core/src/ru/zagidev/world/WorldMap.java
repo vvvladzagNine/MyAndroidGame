@@ -11,6 +11,8 @@ import ru.zagidev.MyAndroidGame;
 import ru.zagidev.world.blocks.BrickWall;
 import ru.zagidev.world.blocks.Placeable;
 
+import static ru.zagidev.world.blocks.BlockFactory.createPlaceable;
+
 public class WorldMap extends Actor {
 
     final float GAME_WORLD_WIDTH = MyAndroidGame.WIDTH;
@@ -40,30 +42,30 @@ public class WorldMap extends Actor {
         }
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 6)
-                addPlaceable(8, i);
+                addPlaceable("brick",8, i);
         }
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 9)
-                addPlaceable(10, i);
+                addPlaceable("wood",10, i);
         }
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 2)
-                addPlaceable(15, i);
+                addPlaceable("brick",15, i);
         }
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 8)
-                addPlaceable(20, i);
+                addPlaceable("wood",20, i);
         }
 
         for (int i = 0; i < X_SIZE; i++) {
             if (i != 2 && i != 7 && i != 22)
-                addPlaceable(i, 12);
+                addPlaceable("brick",i, 12);
         }
     }
 
 
-    public void addPlaceable(int x, int y) {
-        matrix[x][y].justPlace(new BrickWall( matrix[x][y]));
+    public void addPlaceable(String name, int x, int y) {
+        matrix[x][y].justPlace(createPlaceable(name, matrix[x][y]));
     }
 
 
