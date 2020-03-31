@@ -24,6 +24,8 @@ public class WorldMap extends Actor {
     public static final int X_SIZE = 50;
     public static final int Y_SIZE = 25;
 
+
+
     public static final Cell[][] matrix = new Cell[X_SIZE][Y_SIZE];
     private List<Cell> cells = new ArrayList<>();
 
@@ -59,7 +61,7 @@ public class WorldMap extends Actor {
 
         for (int i = 0; i < X_SIZE; i++) {
             if (i != 2 && i != 7 && i != 22)
-                addPlaceable("brick",i, 12);
+                addPlaceable("water",i, 12);
         }
     }
 

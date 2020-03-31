@@ -7,6 +7,7 @@ public class BlockFactory {
         switch (name) {
             case "brick": return new BrickWall(cell);
             case "wood": return new WoodWall(cell);
+            case "water": return new Water(cell);
             default:
                 return null;
         }

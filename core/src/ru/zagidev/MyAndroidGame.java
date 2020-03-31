@@ -5,22 +5,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
+import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.DuckCharacter;
+import ru.zagidev.sprites.characters.DuckGirlCharacter;
 import ru.zagidev.sprites.objects.Block;
 import ru.zagidev.sprites.objects.DotsPath;
 import ru.zagidev.sprites.objects.NextCell;
-import ru.zagidev.sprites.objects.VectorLine;
 import ru.zagidev.world.WorldMap;
 
 public class MyAndroidGame extends ApplicationAdapter {
 	SpriteBatch batch;
-	DuckCharacter character;
 	Vector3 touchPos;
 	Block block;
 	public static int VIEW_WIDTH;
@@ -37,14 +35,17 @@ public class MyAndroidGame extends ApplicationAdapter {
 	private NextCell nextCell;
 	public WorldMap worldMap;
 
+	AbstractCharacter character;
+	AbstractCharacter npc;
 
 
 
 
-	public static Point getMatricsCords(int x, int y){
-		int xr = (int)(x* X_SIZE/WIDTH );
-		int yr = (int)(y * Y_SIZE/HEIGHT);
-		return new Point(xr,yr);
+
+	public static Point getMatricsCords(float x, float y){
+		float xr = (x* X_SIZE/WIDTH );
+		float yr = (y * Y_SIZE/HEIGHT);
+		return new Point((int)xr,(int)yr);
 	}
 	public static Point getRealCords(int x, int y){
 		int xr = (int)(x* WIDTH/X_SIZE ) + WIDTH/X_SIZE/2;
@@ -74,8 +75,10 @@ public class MyAndroidGame extends ApplicationAdapter {
 		dots=new DotsPath();
 		touchPos = new Vector3();
 		batch = new SpriteBatch();
-		character = new DuckCharacter();
+		character = new DuckCharacter(240,160);
 		nextCell=new NextCell(character);
+		npc=new DuckGirlCharacter(100,500);
+		npc.setTarget(character);
 		Gdx.app.log("MyTag", Gdx.graphics.getWidth() + " " +Gdx.graphics.getHeight() );
 //
 
@@ -87,6 +90,8 @@ public class MyAndroidGame extends ApplicationAdapter {
 		stage.addActor(character);
 
 		stage.addActor(dots);
+
+		stage.addActor(npc);
 
 		stage.addActor(nextCell);
 
@@ -107,6 +112,7 @@ public class MyAndroidGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		Gdx.gl.glClearColor(0.12f,0.50f,0.12f,0.5f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		handleInput();
