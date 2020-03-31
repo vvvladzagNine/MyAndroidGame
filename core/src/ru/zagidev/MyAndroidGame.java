@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
@@ -15,6 +16,7 @@ import ru.zagidev.sprites.objects.Block;
 import ru.zagidev.sprites.objects.DotsPath;
 import ru.zagidev.sprites.objects.NextCell;
 import ru.zagidev.sprites.objects.VectorLine;
+import ru.zagidev.world.WorldMap;
 
 public class MyAndroidGame extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -26,13 +28,14 @@ public class MyAndroidGame extends ApplicationAdapter {
 	public static  int WIDTH;
 	public static  int HEIGHT;
 	public static final int X_SIZE=50;
-	public static final int Y_SIZE=30;
+	public static final int Y_SIZE=25;
 	public static final Block[][] matrix = new Block[X_SIZE][Y_SIZE];
 	public DotsPath dots;
 	private Stage stage;
 	private StretchViewport viewport;
-	private OrthographicCamera camera;
+	public static OrthographicCamera camera;
 	private NextCell nextCell;
+	private WorldMap worldMap;
 
 
 
@@ -58,13 +61,15 @@ public class MyAndroidGame extends ApplicationAdapter {
 		VIEW_WIDTH=Gdx.graphics.getWidth();
 		VIEW_HEIGHT=Gdx.graphics.getHeight();
 
-		WIDTH=VIEW_WIDTH*3;
-		HEIGHT= VIEW_HEIGHT*3;
+		WIDTH=VIEW_WIDTH*2;
+		HEIGHT= VIEW_HEIGHT*2;
 
 		camera=new OrthographicCamera(VIEW_WIDTH, VIEW_HEIGHT);
 		viewport=new StretchViewport(camera.viewportWidth,camera.viewportHeight,camera);
 		stage = new Stage(viewport);
 		Gdx.input.setInputProcessor(stage);
+
+		worldMap=new WorldMap();
 
 		dots=new DotsPath();
 		touchPos = new Vector3();
@@ -97,11 +102,15 @@ public class MyAndroidGame extends ApplicationAdapter {
 		dots.path=character.waveAlgorithm.getDots(new Point(3,3),new Point(18,8));
 
 
+		stage.addActor(worldMap);
+
 		stage.addActor(character);
 
 		stage.addActor(dots);
 
 		stage.addActor(nextCell);
+
+
 
 
 
@@ -129,10 +138,11 @@ public class MyAndroidGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
 		handleInput();
 		float delta = Gdx.graphics.getDeltaTime();
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		stage.act(delta);
 		stage.draw();
 		camera.position.set(character.sp.getX(),character.sp.getY(),0);
@@ -149,8 +159,8 @@ public class MyAndroidGame extends ApplicationAdapter {
 	}
 
 	private void setDots(int x,int y) {
-		if(character.waveAlgorithm.computeDist(getMatricsCords((int)character.sp.getX(),(int)character.sp.getY()),getMatricsCords(x,y))!=-1)
-		dots.path=character.waveAlgorithm.getDots(getMatricsCords((int)character.sp.getX(),(int)character.sp.getY()),getMatricsCords(x,y));
+		if(character.waveAlgorithm.computeDist(getMatricsCords((int)character.getCenterX(),(int)character.getCenterY()),getMatricsCords(x,y))!=-1)
+		dots.path=character.waveAlgorithm.getDots(getMatricsCords((int)character.getCenterX(),(int)character.getCenterY()),getMatricsCords(x,y));
 	}
 
 	@Override
