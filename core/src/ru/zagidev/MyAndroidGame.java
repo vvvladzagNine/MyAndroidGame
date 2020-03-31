@@ -35,7 +35,7 @@ public class MyAndroidGame extends ApplicationAdapter {
 	private StretchViewport viewport;
 	public static OrthographicCamera camera;
 	private NextCell nextCell;
-	private WorldMap worldMap;
+	public WorldMap worldMap;
 
 
 
@@ -77,29 +77,9 @@ public class MyAndroidGame extends ApplicationAdapter {
 		character = new DuckCharacter();
 		nextCell=new NextCell(character);
 		Gdx.app.log("MyTag", Gdx.graphics.getWidth() + " " +Gdx.graphics.getHeight() );
+//
 
-		for(int i=0;i<Y_SIZE;i++){
-			if(i!=6)
-				addBlock(8,i);
-		}
-		for(int i=0;i<Y_SIZE;i++){
-			if(i!=9)
-				addBlock(10,i);
-		}
-		for(int i=0;i<Y_SIZE;i++){
-			if(i!=2)
-				addBlock(15,i);
-		}
-		for(int i=0;i<Y_SIZE;i++){
-			if(i!=8)
-				addBlock(20,i);
-		}
-
-		for(int i=0;i<X_SIZE;i++){
-			if(i!=2 && i!=7 && i!=22)
-				addBlock(i,12);
-		}
-		dots.path=character.waveAlgorithm.getDots(new Point(3,3),new Point(18,8));
+//		dots.path=character.waveAlgorithm.getDots(new Point(3,3),new Point(18,8));
 
 
 		stage.addActor(worldMap);
@@ -114,22 +94,11 @@ public class MyAndroidGame extends ApplicationAdapter {
 
 
 
-		for (int row=0; row < matrix.length; row++)
-		{
-			for (int col=0; col < matrix[row].length; col++)
-			{
-				if(matrix[row][col] != null){
-					stage.addActor(matrix[row][col]);
-				}
-			}
-		}
+
 
 
 	}
 
-	private void addBlock(int x, int y) {
-		matrix[x][y] = new Block(x,y);
-	}
 
 	@Override
 	public void resize(int width, int height) {

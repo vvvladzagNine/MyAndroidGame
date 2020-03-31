@@ -2,9 +2,8 @@ package ru.zagidev.world;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import ru.zagidev.MyAndroidGame;
+import ru.zagidev.world.blocks.Placeable;
 
 public class Cell {
     public float centerX;
@@ -27,15 +26,34 @@ public class Cell {
 
     }
 
+
     public boolean isPlaced() {
         return placeable != null;
     }
 
-    public void draw(ShapeRenderer renderer) {
-        renderer.rect(x, y, width, height);
+    public void drawCell(ShapeRenderer renderer) {
+        if (!isPlaced())
+            renderer.rect(x, y, width, height);
 
+    }
 
+    public void drawPlaceable(Batch batch) {
+        if (isPlaced())
+            placeable.getSprite().draw(batch);
 
+    }
+
+    public void place(Placeable p) {
+        p.getSprite().setRegion(0, 0, width, height);
+        p.getSprite().setColor(1, 1, 1, 1);
+        p.getSprite().setSize(Math.abs(width), Math.abs(height));
+        p.getSprite().setOrigin(width / 2, height / 2);
+        p.getSprite().setPosition(x, y);
+        placeable = p;
+    }
+
+    public void justPlace(Placeable p) {
+        placeable = p;
     }
 
     public void act(float delta) {

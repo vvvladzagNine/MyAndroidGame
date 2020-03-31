@@ -29,7 +29,6 @@ public class DuckCharacter extends Actor {
     public Point nextCell;
     public Point meshPoint;
     public Point destination;
-    public Mesh mesh;
 
     public int x2, y2;
 

@@ -10,10 +10,12 @@ import ru.zagidev.Point;
 import ru.zagidev.sprites.AbstractObject;
 import ru.zagidev.sprites.objects.Block;
 import ru.zagidev.sprites.objects.Dot;
+import ru.zagidev.world.Cell;
+import ru.zagidev.world.WorldMap;
 
 public class WaveAlgorithm implements AbstractObject
 {
-    private static Block[][] table;
+    private static Cell[][] table;
     private int rows;
     private int cols;
     private Point startPoint;
@@ -21,7 +23,7 @@ public class WaveAlgorithm implements AbstractObject
     private LinkedHashMap<String,Point> previousPoints;
 
     static {
-        table= MyAndroidGame.matrix;
+        table= WorldMap.matrix;
     }
 
 
@@ -35,6 +37,8 @@ public class WaveAlgorithm implements AbstractObject
         this.rows = table.length;
         this.cols = table[0].length;
     }
+
+
 
 
     public void setStartPoint(Point startPoint) {
@@ -62,7 +66,7 @@ public class WaveAlgorithm implements AbstractObject
         for(int i = 0; i < rows; i++)
             for(int j = 0; j < cols; j++)
             {
-                dist[i][j] = table[i][j]==null ? -1 : Integer.MAX_VALUE;
+                dist[i][j] = !table[i][j].isPlaced() ? -1 : Integer.MAX_VALUE;
             }
         oldFront.add(startPoint);
         dist[(int)startPoint.getX()][(int)startPoint.getY()] = 0;

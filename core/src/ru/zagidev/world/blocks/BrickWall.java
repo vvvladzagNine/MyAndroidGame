@@ -1,9 +1,9 @@
-package ru.zagidev.world;
+package ru.zagidev.world.blocks;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import ru.zagidev.MyAndroidGame;
+import ru.zagidev.world.Cell;
 
 public class BrickWall implements Placeable {
     public Sprite sp;
@@ -22,8 +22,14 @@ public class BrickWall implements Placeable {
         sp.setPosition(cell.x,cell.y);
     }
 
+    public BrickWall() {
+        sp = new Sprite(texture);
+
+    }
+
     @Override
     public Sprite getSprite() {
         return sp;
     }
+
 }
