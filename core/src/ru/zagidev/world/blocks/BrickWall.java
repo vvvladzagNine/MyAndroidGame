@@ -24,7 +24,6 @@ public class BrickWall implements Placeable {
 
     public BrickWall() {
         sp = new Sprite(texture);
-
     }
 
     @Override

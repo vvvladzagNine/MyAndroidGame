@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import ru.zagidev.MyAndroidGame;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.DuckCharacter;
+import ru.zagidev.world.WorldMap;
 
 public class NextCell extends Actor {
 
@@ -18,8 +19,8 @@ public class NextCell extends Actor {
 
     private AbstractCharacter d;
 
-    public static final int STEP_X = MyAndroidGame.WIDTH / MyAndroidGame.X_SIZE;
-    public static final int STEP_Y = MyAndroidGame.HEIGHT/ MyAndroidGame.Y_SIZE;
+    public static final int STEP_X = WorldMap.CELL_WIDTH;
+    public static final int STEP_Y = WorldMap.CELL_HEIGHT;
 
     public static final int WIDTH = 70;
     public static final int HEIGHT = 70;

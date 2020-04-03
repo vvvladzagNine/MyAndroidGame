@@ -20,10 +20,10 @@ public class Anime implements AbstractObject {
     }
 
     public Anime() {
-        dX=0;
-        dY=0;
-        sp = new Sprite(texture,512,512);
-        sp.setPosition(600,160);
+        dX = 0;
+        dY = 0;
+        sp = new Sprite(texture, 512, 512);
+        sp.setPosition(600, 160);
     }
 
     @Override
@@ -33,6 +33,6 @@ public class Anime implements AbstractObject {
 
     @Override
     public void update() {
-        sp.setPosition(sp.getX()+dX,sp.getY());
+        sp.setPosition(sp.getX() + dX, sp.getY());
     }
 }
