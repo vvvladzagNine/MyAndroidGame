@@ -7,7 +7,7 @@ import ru.zagidev.world.Cell;
 
 public class Water implements Placeable {
     public Sprite sp;
-    static Texture texture = new Texture("data/water.jpg");
+    public static Texture texture = new Texture("data/water.jpg");
     public Cell cell;
 
     public int dX;

@@ -35,8 +35,15 @@ public class SimpleDirectionGestureDetector extends GestureDetector {
         }
 
         @Override
+        public boolean pan(float x, float y, float deltaX, float deltaY) {
+            directionListener.swipe(deltaX,deltaY);
+            return super.pan(x, y, deltaX, deltaY);
+        }
+
+        @Override
         public boolean fling(float velocityX, float velocityY, int button) {
-            directionListener.swipe(velocityX,velocityY);
+//            if(Math.abs(velocityX)<6000 && Math.abs(velocityY)<6000 )
+//            directionListener.swipe(velocityX,velocityY);
             return super.fling(velocityX, velocityY, button);
         }
 

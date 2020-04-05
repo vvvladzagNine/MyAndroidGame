@@ -22,6 +22,8 @@ public class Map {
     private float xScreen;
     private float yScreen;
 
+
+
     public Map(OrthographicCamera c) {
         camera=c;
         scale=1;
@@ -54,10 +56,19 @@ public class Map {
         }
     }
 
+
+    public boolean isActive(){
+        return sprite==pressedSprite;
+    }
+
     public void draw(Batch batch){
         batch.begin();
         sprite.draw(batch);
+        if(isActive()){
+            
+        }
         batch.end();
+
     }
 
     public void update(){

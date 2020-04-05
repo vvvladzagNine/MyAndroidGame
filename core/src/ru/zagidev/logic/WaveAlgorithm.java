@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import ru.zagidev.MyAndroidGame;
 import ru.zagidev.Point;
 import ru.zagidev.sprites.AbstractObject;
+import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.objects.Block;
 import ru.zagidev.sprites.objects.Dot;
 import ru.zagidev.world.Cell;
@@ -21,6 +22,7 @@ public class WaveAlgorithm implements AbstractObject
     private Point startPoint;
     private Point finishPoint;
     private LinkedHashMap<String,Point> previousPoints;
+    private AbstractCharacter character;
 
     static {
         table= WorldMap.matrix;
@@ -31,9 +33,9 @@ public class WaveAlgorithm implements AbstractObject
      * Constructor sets initial values to data fields.
      *
      */
-    public WaveAlgorithm()
+    public WaveAlgorithm(AbstractCharacter c)
     {
-
+        character=c;
         this.rows = table.length;
         this.cols = table[0].length;
     }
@@ -66,7 +68,7 @@ public class WaveAlgorithm implements AbstractObject
         for(int i = 0; i < rows; i++)
             for(int j = 0; j < cols; j++)
             {
-                dist[i][j] = !table[i][j].isPlaced() ? -1 : Integer.MAX_VALUE;
+                dist[i][j] = (!table[i][j].isPlaced() && character.checkCell(new Point(i,j))) ? -1 : Integer.MAX_VALUE;
             }
         oldFront.add(startPoint);
         dist[(int)startPoint.getX()][(int)startPoint.getY()] = 0;

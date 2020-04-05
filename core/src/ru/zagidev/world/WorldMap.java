@@ -1,5 +1,6 @@
 package ru.zagidev.world;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,37 +9,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.zagidev.MyAndroidGame;
-import ru.zagidev.sprites.characters.AbstractCharacter;
-import ru.zagidev.world.blocks.BrickWall;
-import ru.zagidev.world.blocks.Placeable;
+import ru.zagidev.sprites.characters.DuckCharacter;
+import ru.zagidev.sprites.characters.PigeonCharacter;
+import ru.zagidev.sprites.effects.BloodExplosion;
 
 import static ru.zagidev.world.blocks.BlockFactory.createPlaceable;
 
 public class WorldMap extends Actor {
 
-    public float GAME_WORLD_WIDTH;
-    public float GAME_WORLD_HEIGHT;
+    public static float GAME_WORLD_WIDTH;
+    public static float GAME_WORLD_HEIGHT;
 
     public static final int CELL_WIDTH = 120;
     public static final int CELL_HEIGHT = 120;
 
-    public static final int X_SIZE = 50;
-    public static final int Y_SIZE = 25;
+    public static final int X_SIZE = 20;
+    public static final int Y_SIZE = 20;
 
-    public Team team1;
-    public Team team2;
-
-
-
-    public static final Cell[][] matrix = new Cell[X_SIZE][Y_SIZE];
+    public static final Cell[][] matrix = new Cell[Y_SIZE][X_SIZE];
     private List<Cell> cells = new ArrayList<>();
 
     private ShapeRenderer renderer;
 
+    public static ArrayList<BloodExplosion> explosions;
+
+    static {
+        explosions=new ArrayList<>();
+    }
+
 
     public WorldMap() {
-        team1=new Team();
-        team2=new Team();
+
+
 
         GAME_WORLD_WIDTH= CELL_WIDTH*X_SIZE;
         GAME_WORLD_HEIGHT= CELL_HEIGHT*Y_SIZE;
@@ -53,38 +55,25 @@ public class WorldMap extends Actor {
             }
         }
 
-        for (int i = 0; i < Y_SIZE; i++) {
-                addPlaceable("brick",0, i);
-                addPlaceable("brick",X_SIZE-1, i);
-        }
 
-        for (int i = 0; i < X_SIZE; i++) {
-                addPlaceable("brick",i, Y_SIZE-1);
-                addPlaceable("brick",i, 0);
+        for (int i = 0; i < Y_SIZE; i++) {
+            if (i != 6 && i!=2 && i!=3 && i!=14)
+                addPlaceable("brick",9, i);
         }
 
         for (int i = 0; i < Y_SIZE; i++) {
-            if (i != 6)
-                addPlaceable("brick",8, i);
-        }
-        for (int i = 0; i < Y_SIZE; i++) {
-            if (i != 9)
-                addPlaceable("wood",10, i);
-        }
-        for (int i = 0; i < Y_SIZE; i++) {
-            if (i != 2)
+            if (i != 2 && i!=17)
                 addPlaceable("brick",15, i);
         }
-        for (int i = 0; i < Y_SIZE; i++) {
-            if (i != 8)
-                addPlaceable("wood",20, i);
-        }
 
         for (int i = 0; i < X_SIZE; i++) {
-            if (i != 2 && i != 7 && i != 22)
-                addPlaceable("water",i, 12);
+            if (i != 8 && i!=9 && i!=4)
+                addPlaceable("wood",i, 6);
         }
+
     }
+
+
 
 
     public void addPlaceable(String name, int x, int y) {

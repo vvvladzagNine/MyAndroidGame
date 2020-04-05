@@ -7,7 +7,7 @@ import ru.zagidev.world.Cell;
 
 public class BrickWall implements Placeable {
     public Sprite sp;
-    static Texture texture = new Texture("data/stena.jpg");
+    public static Texture texture = new Texture("data/stena.jpg");
     public Cell cell;
 
     public int dX;
