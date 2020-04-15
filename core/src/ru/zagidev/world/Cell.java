@@ -14,6 +14,8 @@ public class Cell {
     public float height;
     public Placeable placeable;
 
+    private boolean shooted;
+
 
     public Cell(float x, float y, float width, float height) {
         this.width = width;
@@ -22,10 +24,14 @@ public class Cell {
         this.y = y;
         centerX = +width / 2;
         centerY = 0;
+        shooted = true;
 
 
     }
 
+    public boolean isShooted() {
+        return shooted;
+    }
 
     public boolean isPlaced() {
         return placeable != null;
@@ -53,6 +59,11 @@ public class Cell {
     }
 
     public void justPlace(Placeable p) {
+        placeable = p;
+    }
+
+    public void justPlace(Placeable p,boolean shooted) {
+        this.shooted=shooted;
         placeable = p;
     }
 

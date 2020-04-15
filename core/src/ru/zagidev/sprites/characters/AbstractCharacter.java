@@ -37,19 +37,27 @@ public abstract class AbstractCharacter extends Actor {
     public Team team;
     private Team enemyTeam;
     protected float MAX_HEALTH = 1000;
-    protected float currentHealth;
+    public float currentHealth;
     protected float lastHealth;
     public boolean followTarget = true;
     protected int attackReloading = 25;
     protected int currentAttackReloadingState = 0;
     protected float damage = 200;
 
+    protected static ShapeRenderer renderer;
+
+
     protected int animationDelay = 5;
 
     protected int currentAnimWalk = 0;
     protected int pastAnimWalk = 0;
     protected ArrayList<Sprite> animationWalk;
-    public ArrayList<Texture> animationWalkTextures;
+    protected ArrayList<Sprite> animationWalkRight;
+    protected ArrayList<Sprite> animationWalkDown;
+    protected ArrayList<Sprite> animationWalkUp;
+    public ArrayList<Texture> animationWalkRightTextures;
+    public ArrayList<Texture> animationWalkDownTextures;
+    public ArrayList<Texture> animationWalkUpTextures;
 
     protected int currentAnimFight = 0;
     protected int pastAnimFight = 0;
@@ -61,27 +69,46 @@ public abstract class AbstractCharacter extends Actor {
     protected Sprite dead;
 
     public Texture deadTexture;
+    public Texture deadTexture2;
 
     protected float lastdX;
+    protected float lastdY;
 
     public Sound sound;
 
-    public Sound deadSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/hitmarker_2.mp3"));
+    public Sound deadSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/roblox-death-sound_1.mp3"));
 
     protected int changeTargetCoolDown = 20;
     protected int currentChangeTargetCoolDown = 0;
 
 
-    public void directionController() {
+    public void directionControllerHorizontal() {
         if (lastdX * dX < 0) {
             stay.flip(true, false);
-            if (animationWalk != null) {
-                for (Sprite p : animationWalk) {
+            if (animationWalkRight != null) {
+                for (Sprite p : animationWalkRight) {
                     p.flip(true, false);
                 }
             }
         }
         lastdX = dX;
+    }
+
+
+    public void directionController2() {
+
+        if (Math.abs(dY) > Math.abs(dX)) {
+            if (dY < 0 && animationWalk != animationWalkDown)
+                animationWalk = animationWalkDown;
+            if (dY > 0 && animationWalk != animationWalkUp)
+                animationWalk = animationWalkUp;
+        }
+
+        if (Math.abs(dY) < Math.abs(dX) && animationWalk != animationWalkRight) {
+            animationWalk = animationWalkRight;
+        }
+        lastdX = dX;
+        lastdY = dY;
     }
 
 
@@ -107,7 +134,6 @@ public abstract class AbstractCharacter extends Actor {
         return currentHealth > 0.0f;
     }
 
-    private ShapeRenderer renderer;
 
 
     public void setdX(int a) {
@@ -260,7 +286,8 @@ public abstract class AbstractCharacter extends Actor {
                     sp.setPosition(x, y);
                 }
             }
-            directionController();
+            directionControllerHorizontal();
+            directionController2();
         }
         lifeController();
 
@@ -280,14 +307,17 @@ public abstract class AbstractCharacter extends Actor {
         path = new ArrayList<>();
         waveAlgorithm = new WaveAlgorithm(this);
         dX = 1;
-        dY = 0;
+        dY = 1;
         if (texture == null) throw new RuntimeException("Texture 'texture' must be set");
         stay = new Sprite(texture, 100, 120);
         if (deadTexture == null) deadTexture = texture;
-        dead = new Sprite(deadTexture, 100, 120);
+        if (Math.random() > 0.5)
+            dead = new Sprite(deadTexture, 120, 100);
+        else
+            dead = new Sprite(deadTexture2, 120, 100);
         sp = stay;
         sp.setPosition(x, y);
-        meshPoint = MyAndroidGame.getMatricsCords((int) getCenterX(), worldMap.GAME_WORLD_HEIGHT - (int) getCenterY());
+        meshPoint = MyAndroidGame.getMatricsCords((int) getCenterX(), (int) getCenterY());
         setX(sp.getX());
         setY(sp.getY());
         lastdX = dX;
@@ -297,22 +327,36 @@ public abstract class AbstractCharacter extends Actor {
         renderer.setAutoShapeType(true);
 
 
-        animationWalk = new ArrayList<>();
-        if (animationWalkTextures == null) animationWalkTextures = new ArrayList<>();
-        for (Texture t : animationWalkTextures) {
-            animationWalk.add(new Sprite(t, 100, 120));
+        animationWalkRight = new ArrayList<>();
+        animationWalkDown = new ArrayList<>();
+        animationWalkUp = new ArrayList<>();
+        if (animationWalkRightTextures == null) animationWalkRightTextures = new ArrayList<>();
+        if (animationWalkDownTextures == null) animationWalkDownTextures = new ArrayList<>();
+        if (animationWalkUpTextures == null) animationWalkUpTextures = new ArrayList<>();
+        for (Texture t : animationWalkRightTextures) {
+            animationWalkRight.add(new Sprite(t, 100, 120));
         }
+        for (Texture t : animationWalkDownTextures) {
+            animationWalkDown.add(new Sprite(t, 100, 120));
+        }
+        for (Texture t : animationWalkUpTextures) {
+            animationWalkUp.add(new Sprite(t, 100, 120));
+        }
+
+        animationWalk = animationWalkRight;
         animationFight = new ArrayList<>();
         if (animationFightTextures == null) animationFightTextures = new ArrayList<>();
         for (Texture t : animationFightTextures) {
             animationFight.add(new Sprite(t, 100, 120));
         }
+        renderer = new ShapeRenderer();
+        renderer.setAutoShapeType(true);
     }
 
 
     public void changePath(float x, float y) {
-        if (waveAlgorithm.computeDist(getMatricsCords((int) getCenterX(), (int) getCenterY()), getMatricsCords(x, y)) != -1)
-            path = waveAlgorithm.getPath(getMatricsCords((int) getCenterX(), (int) getCenterY()), getMatricsCords(x, y));
+        if (waveAlgorithm.computeDist(getMatricsCords( getCenterX(),getCenterY()), getMatricsCords(x, y)) != -1)
+            path = waveAlgorithm.getPath(getMatricsCords(getCenterX(),getCenterY()), getMatricsCords(x, y));
     }
 
 

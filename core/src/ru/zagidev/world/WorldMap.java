@@ -58,17 +58,17 @@ public class WorldMap extends Actor {
 
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 6 && i!=2 && i!=3 && i!=14)
-                addPlaceable("brick",9, i);
+                addPlaceable("brick",9, i,false);
         }
 
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 2 && i!=17)
-                addPlaceable("brick",15, i);
+                addPlaceable("brick",15, i,false);
         }
 
         for (int i = 0; i < X_SIZE; i++) {
             if (i != 8 && i!=9 && i!=4)
-                addPlaceable("wood",i, 6);
+                addPlaceable("wood",i, 6,false);
         }
 
     }
@@ -78,6 +78,10 @@ public class WorldMap extends Actor {
 
     public void addPlaceable(String name, int x, int y) {
         matrix[x][y].justPlace(createPlaceable(name, matrix[x][y]));
+    }
+
+    public void addPlaceable(String name, int x, int y,boolean tf) {
+        matrix[x][y].justPlace(createPlaceable(name, matrix[x][y]),tf);
     }
 
 

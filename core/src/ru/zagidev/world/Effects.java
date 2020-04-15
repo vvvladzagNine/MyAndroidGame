@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,9 @@ public class Effects extends Actor {
 
     void checkBlood(){
         for(int i=0;i<explosions.size();i++){
-            if(!explosions.get(i).isDraw())explosions.remove(i);
+            if(!explosions.get(i).isDraw()){
+                explosions.remove(i);
+            }
         }
     }
 

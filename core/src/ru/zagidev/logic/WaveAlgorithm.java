@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import ru.zagidev.MyAndroidGame;
 import ru.zagidev.Point;
 import ru.zagidev.sprites.AbstractObject;
 import ru.zagidev.sprites.characters.AbstractCharacter;
-import ru.zagidev.sprites.objects.Block;
-import ru.zagidev.sprites.objects.Dot;
 import ru.zagidev.world.Cell;
 import ru.zagidev.world.WorldMap;
 
@@ -129,23 +126,7 @@ public class WaveAlgorithm implements AbstractObject
         path.add(startPoint);
         return path;
     }
-    public ArrayList<Dot> getDots(Point startPoint, Point endPoind)
-    {
 
-
-        computeDist(startPoint,endPoind);
-        if(!previousPoints.containsKey(finishPoint.toString()))
-            return null;
-        Point lastPoint = finishPoint;
-        ArrayList<Dot> path = new ArrayList<Dot>();
-        while (!lastPoint.equals(startPoint))
-        {
-            path.add(new Dot(lastPoint.x,lastPoint.y));
-            lastPoint = previousPoints.get(lastPoint.toString());
-        }
-        path.add(new Dot(startPoint.x,startPoint.y));
-        return path;
-    }
 
     @Override
     public void render(SpriteBatch batch) {

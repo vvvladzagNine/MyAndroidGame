@@ -3,6 +3,7 @@ package ru.zagidev;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,13 +13,17 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import ru.zagidev.GUI.GUI;
+import ru.zagidev.GUI.GuiState;
+import ru.zagidev.GUI.Map;
+import ru.zagidev.GUI.Shop;
 import ru.zagidev.inputHandling.SimpleDirectionGestureDetector;
 import ru.zagidev.sprites.characters.AbstractCharacter;
+import ru.zagidev.sprites.characters.CharacterFactory;
 import ru.zagidev.sprites.characters.DuckCharacter;
-import ru.zagidev.sprites.characters.PigeonCharacter;
+import ru.zagidev.sprites.characters.RangeCharacter;
+import ru.zagidev.sprites.characters.bullets.Bullet;
 import ru.zagidev.sprites.effects.BloodExplosion;
 import ru.zagidev.sprites.objects.Block;
-import ru.zagidev.sprites.objects.DotsPath;
 import ru.zagidev.sprites.objects.NextCell;
 import ru.zagidev.world.Characters;
 import ru.zagidev.world.Effects;
@@ -40,21 +45,15 @@ public class MyAndroidGame extends ApplicationAdapter {
     public static final int X_SIZE = 40;
     public static final int Y_SIZE = 20;
     public static final Block[][] matrix = new Block[X_SIZE][Y_SIZE];
-    //public DotsPath dots;
     private Stage stage;
     private StretchViewport viewport;
     public static OrthographicCamera camera;
-    private NextCell nextCell;
     public static WorldMap worldMap;
     public static Effects effects;
 
     public static Characters characters;
 
     private GUI gui;
-
-    AbstractCharacter character;
-    AbstractCharacter teammate;
-    AbstractCharacter npc;
 
 
     //cameraBEGIN
@@ -67,6 +66,8 @@ public class MyAndroidGame extends ApplicationAdapter {
     private Float axeler = 45f;
 
     static Music music;
+
+    public static Sound eror;
 
     //cameraEND
 
@@ -87,6 +88,7 @@ public class MyAndroidGame extends ApplicationAdapter {
     public void create() {
 
 
+        eror=Gdx.audio.newSound(Gdx.files.internal("data/sounds/engineer_no01_1.mp3"));
 
 
         VIEW_WIDTH = Gdx.graphics.getWidth();
@@ -104,7 +106,6 @@ public class MyAndroidGame extends ApplicationAdapter {
 
         effects = new Effects();
 
-        //dots=new DotsPath();
         touchPos = new Vector3();
         batch = new SpriteBatch();
 
@@ -113,37 +114,12 @@ public class MyAndroidGame extends ApplicationAdapter {
          */
 
         characters = new Characters();
-        character = new DuckCharacter(230, 760, Characters.team1);
-        character.followTarget = false;
-
-
-//        teammate = new DuckCharacter(250, 160, Characters.team1);
-//        npc = new PigeonCharacter(250, 500, Characters.team2);
-//        teammate.setNearestEnemyAsATarget();
-//        npc.setNearestEnemyAsATarget();
-
-
-        nextCell=new NextCell(character);
-//
-
-		//dots.path=character.waveAlgorithm.getDots(new Point(3,3),new Point(18,8));
-
 
         stage.addActor(worldMap);
 
-        stage.addActor(character);
-
-        //stage.addActor(dots);
-
         characters.fillStage(stage);
 
-//        stage.addActor(npc);
-//
-//        stage.addActor(teammate);
-
         stage.addActor(effects);
-
-        stage.addActor(nextCell);
 
         camera.zoom = 1.5f;
 
@@ -151,20 +127,41 @@ public class MyAndroidGame extends ApplicationAdapter {
 
             @Override
             public void zoom(float initialDist, float dist) {
-                float otn = initialDist / dist;
-                if (otn > 0.3f && otn < 2f)
-                    camera.zoom = otn;
+
+                    float otn = initialDist / dist;
+                    if (otn > 0.3f && otn < 2f)
+                        camera.zoom = otn;
+
+
             }
 
             @Override
             public void swipe(float x, float y) {
-                camera.translate(-x,y,0);
+
+                    camera.translate(-x,y,0);
+
+
 //                camYspeed += y * 0.015f;
             }
 
             @Override
             public void tap(float x, float y, int count) {
-                gui.detectTap(x, y);
+                if(x<Gdx.graphics.getWidth()-200)
+                if(Shop.state==GuiState.PLACING){
+                    Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+                    if(v.x<WorldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<WorldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
+                        AbstractCharacter c =CharacterFactory.createCharacter(v.x,v.y,Shop.currentClass,Shop.currentTeam);
+                        c.setNearestEnemyAsATarget();
+                        Shop.money-=50;
+                        Shop.cashSound.play();
+                        stage.addActor(c);
+                    }
+                    else {
+                        eror.play();
+                    }
+
+                }
+                gui.detectGuiTap(x, y);
             }
         }));
 
@@ -184,7 +181,6 @@ public class MyAndroidGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-        handleInput();
         float delta = Gdx.graphics.getDeltaTime();
         stage.act(delta);
         stage.draw();
@@ -195,53 +191,13 @@ public class MyAndroidGame extends ApplicationAdapter {
         gui.update();
 
 //		camera.position.set(character.sp.getX(),character.sp.getY(),0);
-        moveCamera();
 
     }
 
-    private void moveCamera() {
-        camera.translate(camXspeed, camYspeed, 0);
-
-        slowerX = camXspeed * 0.06f;
-        slowerY = camYspeed * 0.06f;
-
-        if (Math.abs(camXspeed) < 0.8f) {
-            camXspeed = 0f;
-        }
-        if (Math.abs(camYspeed) < 0.8f) {
-            camYspeed = 0f;
-        }
-        if (camXspeed > 0) {
-            camXspeed -= Math.abs(slowerX);
-        }
-        if (camXspeed < 0) {
-            camXspeed += Math.abs(slowerX);
-        }
-        if (camYspeed > 0) {
-            camYspeed -= Math.abs(slowerY);
-        }
-        if (camYspeed < 0) {
-            camYspeed += Math.abs(slowerY);
-        }
-    }
 
 
-    private void handleInput() {
-
-//		List<Vector3> touches = new ArrayList<>();
-//		for()
-//			Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(1),Gdx.input.getY(1),0));
-//			camera.position.set(v.x,v.y,0);
-//		}
 
 
-        if (Gdx.input.isTouched()) {
-            Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-
-            //setDots((int)v.x, (int)v.y);
-            character.changePath((int) v.x, (int) v.y);
-        }
-    }
 
 //	private void setDots(int x,int y) {
 //		if(character.waveAlgorithm.computeDist(getMatricsCords((int)character.getCenterX(),(int)character.getCenterY()),getMatricsCords(x,y))!=-1)
@@ -257,24 +213,52 @@ public class MyAndroidGame extends ApplicationAdapter {
             c.deadTexture.dispose();
             c.sound.dispose();
             c.deadSound.dispose();
-            for(Texture t :c.animationWalkTextures) t.dispose();
+            c.deadTexture2.dispose();
+            for(Texture t :c.animationWalkRightTextures) t.dispose();
+            for(Texture t :c.animationWalkDownTextures) t.dispose();
+            for(Texture t :c.animationWalkUpTextures) t.dispose();
             for(Texture t :c.animationFightTextures) t.dispose();
+            if(c instanceof RangeCharacter){
+                ((RangeCharacter) c).shotSound.dispose();
+            }
         }
         for(AbstractCharacter c: Characters.team2.getMembers()){
             c.texture.dispose();
             c.deadTexture.dispose();
             c.sound.dispose();
             c.deadSound.dispose();
-            for(Texture t :c.animationWalkTextures) t.dispose();
+            c.deadTexture2.dispose();
+            for(Texture t :c.animationWalkRightTextures) t.dispose();
+            for(Texture t :c.animationWalkDownTextures) t.dispose();
+            for(Texture t :c.animationWalkUpTextures) t.dispose();
             for(Texture t :c.animationFightTextures) t.dispose();
+            if(c instanceof RangeCharacter){
+                ((RangeCharacter) c).shotSound.dispose();
+            }
         }
         BrickWall.texture.dispose();
         Water.texture.dispose();
         WoodWall.texture.dispose();
         music.dispose();
+        Shop.cashSound.dispose();
+        Shop.noCashSound.dispose();
+        Shop.realesedTexture.dispose();
+        Shop.pressedTexture.dispose();
+        Shop.t1.dispose();
+        Shop.t2.dispose();
+        Shop.t3.dispose();
+        Shop.str1.dispose();
+        Shop.str2.dispose();
+        Map.realeseTexture.dispose();
+        Map.pressTexture.dispose();
+        eror.dispose();
+        Bullet.texture.dispose();
+        Bullet.hitmarker.dispose();
 
 
 
     }
+
+
 
 }

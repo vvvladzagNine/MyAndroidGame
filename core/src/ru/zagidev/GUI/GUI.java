@@ -23,8 +23,9 @@ public class GUI {
     }
 
 
-    public void detectTap(float x, float y) {
+    public void detectGuiTap(float x, float y) {
             map.pressDetect(x,y);
+            if(Shop.state!=GuiState.PLACING)
             shop.pressDetect(x,y);
     }
 

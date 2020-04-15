@@ -22,7 +22,7 @@ public abstract class MeleeCharacter extends AbstractCharacter {
                     if(target.isAlive()){
                         if(currentAttackReloadingState ==attackReloading){
                             target.currentHealth-=damage;
-                            target.sound.play(1f,0.5f+(float)(Math.random())*1.5f,1f);
+                            target.sound.play(1f,0.7f+(float)(Math.random()),1f);
                             if(isAlive())
                             target.setTarget(this);
                             currentAttackReloadingState=0;
