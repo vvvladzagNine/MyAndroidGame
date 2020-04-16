@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.zagidev.MyAndroidGame;
+import ru.zagidev.RunningGame;
 import ru.zagidev.sprites.characters.DuckCharacter;
 import ru.zagidev.sprites.characters.PigeonCharacter;
 import ru.zagidev.sprites.effects.BloodExplosion;
@@ -93,7 +93,7 @@ public class WorldMap extends Actor {
         for (Cell c : cells) {
             if (!c.isPlaced()) c.drawCell(renderer);
         }
-        renderer.setProjectionMatrix(MyAndroidGame.camera.combined);
+        renderer.setProjectionMatrix(RunningGame.camera.combined);
         renderer.end();
         batch.begin();
         for (Cell c : cells) {

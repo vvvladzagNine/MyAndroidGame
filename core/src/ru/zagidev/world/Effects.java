@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
 
-import ru.zagidev.MyAndroidGame;
 import ru.zagidev.sprites.effects.BloodExplosion;
 
 public class Effects extends Actor {

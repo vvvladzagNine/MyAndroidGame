@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import ru.zagidev.MyAndroidGame;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.world.Team;
 import ru.zagidev.world.WorldMap;

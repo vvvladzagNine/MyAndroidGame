@@ -1,5 +1,5 @@
 package ru.zagidev.GUI;
 
 public enum GuiState {
-    IN_GAME,SHOP,PLACING
+    IN_GAME,SHOP,PLACING,FIGHTING
 }

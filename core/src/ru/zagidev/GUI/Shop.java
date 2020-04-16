@@ -172,7 +172,7 @@ public class Shop {
 
     public void draw(Batch batch) {
         batch.begin();
-        if(state!=GuiState.PLACING){
+        if(state!=GuiState.PLACING && state!=GuiState.FIGHTING){
             sprite.draw(batch);
         }
 

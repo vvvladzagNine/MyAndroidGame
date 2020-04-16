@@ -11,15 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.ArrayList;
 
-import ru.zagidev.MyAndroidGame;
 import ru.zagidev.Point;
+import ru.zagidev.RunningGame;
 import ru.zagidev.logic.WaveAlgorithm;
 import ru.zagidev.world.Characters;
 import ru.zagidev.world.Team;
 import ru.zagidev.world.WorldMap;
 
-import static ru.zagidev.MyAndroidGame.getMatricsCords;
-import static ru.zagidev.MyAndroidGame.getRealCords;
+import static ru.zagidev.RunningGame.getMatricsCords;
+import static ru.zagidev.RunningGame.getRealCords;
 
 public abstract class AbstractCharacter extends Actor {
 
@@ -33,7 +33,7 @@ public abstract class AbstractCharacter extends Actor {
     protected float dY;
     public AbstractCharacter target;
     public float speed;
-    public WorldMap worldMap = MyAndroidGame.worldMap;
+    public WorldMap worldMap = RunningGame.worldMap;
     public Team team;
     private Team enemyTeam;
     protected float MAX_HEALTH = 1000;
@@ -171,7 +171,7 @@ public abstract class AbstractCharacter extends Actor {
         if (team != null && isAlive()) {
             batch.end();
             renderer.begin(ShapeRenderer.ShapeType.Filled);
-            renderer.setProjectionMatrix(MyAndroidGame.camera.combined);
+            renderer.setProjectionMatrix(RunningGame.camera.combined);
             renderer.setColor(Color.BLACK);
             renderer.rect(sp.getX(), sp.getY() + sp.getHeight(), 100, 21);
             renderer.setColor(team.color);
@@ -243,7 +243,7 @@ public abstract class AbstractCharacter extends Actor {
     private void walk() {
         if (isAlive()) {
             if (path != null && path.size() > 0) {
-                meshPoint = MyAndroidGame.getMatricsCords((int) getCenterX(), (int) getCenterY());
+                meshPoint = getMatricsCords((int) getCenterX(), (int) getCenterY());
                 if (path.indexOf(meshPoint) != 0) {
                     nextCell = path.get(path.indexOf(meshPoint) - 1);
 //                    xif(checkCell(nextCell)){
@@ -317,7 +317,7 @@ public abstract class AbstractCharacter extends Actor {
             dead = new Sprite(deadTexture2, 120, 100);
         sp = stay;
         sp.setPosition(x, y);
-        meshPoint = MyAndroidGame.getMatricsCords((int) getCenterX(), (int) getCenterY());
+        meshPoint = getMatricsCords((int) getCenterX(), (int) getCenterY());
         setX(sp.getX());
         setY(sp.getY());
         lastdX = dX;

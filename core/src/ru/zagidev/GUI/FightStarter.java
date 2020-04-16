@@ -6,7 +6,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Map {
+import ru.zagidev.sprites.characters.AbstractCharacter;
+import ru.zagidev.world.Characters;
+
+public class FightStarter {
     private Sprite pressedSprite;
     private Sprite releasedSprite;
     public static Texture realeseTexture;
@@ -21,14 +24,15 @@ public class Map {
     private float yScreen;
 
 
-    public Map(OrthographicCamera c) {
+    public FightStarter(OrthographicCamera c) {
         camera = c;
         scale = 1;
         size = 300;
-        xScreen = Gdx.graphics.getWidth() - size * 0.5f;
-        yScreen = 20;
-        realeseTexture = new Texture("ui/mapIconn.png");
-        pressTexture = new Texture("ui/mapIconPres.png");
+        xScreen = 15;
+        yScreen = 20 + size * 0.5f;
+
+        realeseTexture = new Texture("ui/swords.png");
+        pressTexture = new Texture("ui/swordsP.png");
         releasedSprite = new Sprite(realeseTexture, size, size);
         pressedSprite = new Sprite(pressTexture, size, size);
         sprite = releasedSprite;
@@ -44,8 +48,26 @@ public class Map {
                         && x < (xScreen + size * 0.5f)
                         && y > yScreen
                         && y < (yScreen + size * 0.5f)
-        )
-            Shop.state = GuiState.IN_GAME;
+        ) {
+
+            if (Shop.state == GuiState.FIGHTING) {
+                Shop.state = GuiState.IN_GAME;
+                sprite=releasedSprite;
+                Characters.isFight = false;
+            } else {
+                Shop.state = GuiState.FIGHTING;
+                sprite=pressedSprite;
+                Characters.isFight = true;
+                for (AbstractCharacter c : Characters.team1.getMembers()) {
+                    c.setNearestEnemyAsATarget();
+                }
+                for (AbstractCharacter c : Characters.team2.getMembers()) {
+                    c.setNearestEnemyAsATarget();
+                }
+            }
+
+        }
+
 
     }
 
@@ -55,7 +77,7 @@ public class Map {
     }
 
     public void draw(Batch batch) {
-        if (Shop.state == GuiState.PLACING) {
+        if (Shop.state != GuiState.PLACING) {
             batch.begin();
             sprite.draw(batch);
             batch.end();
@@ -64,15 +86,17 @@ public class Map {
 
     }
 
+    public float getXX(float z) {
+        return 0 - (300 - 300 * sprite.getScaleX()) / 2 - (Gdx.graphics.getWidth() * z * 0.5f) + 15 * z;
+    }
+
     public void update() {
         float z = camera.zoom;
         sprite.setScale(z * 0.5f);
         sprite.setPosition(
-                (Gdx.graphics.getWidth() * z * 0.5f) - size * sprite.getScaleX() - (size - size * sprite.getScaleX()) / 2 - 30 * z * 0.5f,
-                (Gdx.graphics.getHeight() * z * 0.5f) - size * sprite.getScaleY() - (size - size * sprite.getScaleY()) / 2 - 30 * z * 0.5f
+                getXX(z),
+                (Gdx.graphics.getHeight() * z * 0.5f) - size * 2 * sprite.getScaleY() - (size - size * sprite.getScaleY()) / 2 - 30 * z * 0.5f
         );
 
     }
-
-
 }

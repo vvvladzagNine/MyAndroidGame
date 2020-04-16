@@ -11,6 +11,9 @@ import ru.zagidev.sprites.characters.PigeonCharacter;
 
 public class Characters {
 
+
+
+    public static boolean isFight = false;
     public static Team team1= new Team();
     public static Team team2= new Team();
 
