@@ -17,33 +17,35 @@ import static ru.zagidev.world.blocks.BlockFactory.createPlaceable;
 
 public class WorldMap extends Actor {
 
-    public static float GAME_WORLD_WIDTH;
-    public static float GAME_WORLD_HEIGHT;
+    public  float GAME_WORLD_WIDTH;
+    public  float GAME_WORLD_HEIGHT;
 
-    public static final int CELL_WIDTH = 120;
-    public static final int CELL_HEIGHT = 120;
+    public final int CELL_WIDTH = 120;
+    public final int CELL_HEIGHT = 120;
 
-    public static final int X_SIZE = 20;
-    public static final int Y_SIZE = 20;
+    public final int X_SIZE;
+    public final int Y_SIZE;
 
-    public static final Cell[][] matrix = new Cell[Y_SIZE][X_SIZE];
+    public final Cell[][] matrix;
     private List<Cell> cells = new ArrayList<>();
 
     private ShapeRenderer renderer;
 
-    public static ArrayList<BloodExplosion> explosions;
-
-    static {
-        explosions=new ArrayList<>();
-    }
-
-
-    public WorldMap() {
+    public ArrayList<BloodExplosion> explosions;
 
 
 
+
+    public WorldMap(int x_s,int y_s) {
+        X_SIZE=x_s;
+        Y_SIZE=y_s;
+        matrix = new Cell[Y_SIZE][X_SIZE];
         GAME_WORLD_WIDTH= CELL_WIDTH*X_SIZE;
         GAME_WORLD_HEIGHT= CELL_HEIGHT*Y_SIZE;
+
+
+        explosions=new ArrayList<>();
+
 
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
@@ -58,17 +60,17 @@ public class WorldMap extends Actor {
 
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 6 && i!=2 && i!=3 && i!=14)
-                addPlaceable("brick",9, i,false);
+                addPlaceable(BlockType.BRICK,9, i,false);
         }
 
         for (int i = 0; i < Y_SIZE; i++) {
             if (i != 2 && i!=17)
-                addPlaceable("brick",15, i,false);
+                addPlaceable(BlockType.BRICK,15, i,false);
         }
 
         for (int i = 0; i < X_SIZE; i++) {
             if (i != 8 && i!=9 && i!=4)
-                addPlaceable("wood",i, 6,false);
+                addPlaceable(BlockType.WOOD,i, 6,false);
         }
 
     }
@@ -76,11 +78,11 @@ public class WorldMap extends Actor {
 
 
 
-    public void addPlaceable(String name, int x, int y) {
+    public void addPlaceable(BlockType name, int x, int y) {
         matrix[x][y].justPlace(createPlaceable(name, matrix[x][y]));
     }
 
-    public void addPlaceable(String name, int x, int y,boolean tf) {
+    public void addPlaceable(BlockType name, int x, int y,boolean tf) {
         matrix[x][y].justPlace(createPlaceable(name, matrix[x][y]),tf);
     }
 

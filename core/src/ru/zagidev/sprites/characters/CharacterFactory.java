@@ -1,5 +1,6 @@
 package ru.zagidev.sprites.characters;
 
+import ru.zagidev.RunningGame;
 import ru.zagidev.world.Characters;
 import ru.zagidev.world.Team;
 
@@ -7,11 +8,15 @@ public class CharacterFactory {
     public static AbstractCharacter createCharacter(float x, float y, CharacterClass c, Team team) {
         switch (c) {
             case FISTER:
-                if (team == Characters.team1) return new DuckCharacter(x, y, Characters.team1);
-                else if (team == Characters.team2) return new PigeonCharacter(x, y, Characters.team2);
+                if (team == RunningGame.currentGameLevel.characters.team1)
+                    return new DuckCharacter(x, y, RunningGame.currentGameLevel.characters.team1);
+                else if (team == RunningGame.currentGameLevel.characters.team2)
+                    return new PigeonCharacter(x, y, RunningGame.currentGameLevel.characters.team2);
             case SHOTER:
-                if (team == Characters.team1) return new GunnerDuckCharacter(x, y, Characters.team1);
-                else if (team == Characters.team2) return new GunnerPigeonCharacter(x, y, Characters.team2);
+                if (team == RunningGame.currentGameLevel.characters.team1)
+                    return new GunnerDuckCharacter(x, y, RunningGame.currentGameLevel.characters.team1);
+                else if (team == RunningGame.currentGameLevel.characters.team2)
+                    return new GunnerPigeonCharacter(x, y, RunningGame.currentGameLevel.characters.team2);
             default:
                 return null;
 

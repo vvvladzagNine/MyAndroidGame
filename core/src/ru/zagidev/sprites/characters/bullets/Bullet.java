@@ -11,6 +11,8 @@ import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.world.Team;
 import ru.zagidev.world.WorldMap;
 
+import static ru.zagidev.RunningGame.currentGameLevel;
+
 public class Bullet extends Actor {
 
     public static Texture texture= new Texture("data/bullet.png");
@@ -36,7 +38,10 @@ public class Bullet extends Actor {
 
 
     boolean isRemoving(){
-        return sprite.getX()<-30 || sprite.getX()> WorldMap.GAME_WORLD_WIDTH+30 || sprite.getY()<-30 || sprite.getY()> WorldMap.GAME_WORLD_HEIGHT+30;
+        return sprite.getX()<-30 ||
+                sprite.getX()> currentGameLevel.worldMap.GAME_WORLD_WIDTH+30 ||
+                sprite.getY()<-30 ||
+                sprite.getY()> currentGameLevel.worldMap.GAME_WORLD_HEIGHT+30;
     }
 
 

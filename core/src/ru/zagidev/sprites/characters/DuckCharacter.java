@@ -39,7 +39,7 @@ public class DuckCharacter extends MeleeCharacter {
         animationFightTextures = new ArrayList<>();
 
 
-        adjustClass(x, y, team,"data/duck/sound/quack.mp3",5,1000,100);
+        adjustClass(x, y, team,"data/duck/sound/quack.mp3",2,1000,100);
     }
 
     @Override

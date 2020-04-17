@@ -33,7 +33,7 @@ public abstract class AbstractCharacter extends Actor {
     protected float dY;
     public AbstractCharacter target;
     public float speed;
-    public WorldMap worldMap = RunningGame.worldMap;
+    public WorldMap worldMap = RunningGame.currentGameLevel.worldMap;
     public Team team;
     private Team enemyTeam;
     protected float MAX_HEALTH = 1000;
@@ -148,10 +148,10 @@ public abstract class AbstractCharacter extends Actor {
 
     private void setEnemyTeam() {
         if (team != null) {
-            if (Characters.team1 == team) {
-                enemyTeam = Characters.team2;
+            if (RunningGame.currentGameLevel.characters.team1 == team) {
+                enemyTeam = RunningGame.currentGameLevel.characters.team2;
             } else {
-                enemyTeam = Characters.team1;
+                enemyTeam = RunningGame.currentGameLevel.characters.team1;
             }
         }
     }

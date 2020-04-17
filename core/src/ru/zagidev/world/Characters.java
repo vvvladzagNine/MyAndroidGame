@@ -10,12 +10,9 @@ import ru.zagidev.sprites.characters.GunnerDuckCharacter;
 import ru.zagidev.sprites.characters.PigeonCharacter;
 
 public class Characters {
-
-
-
-    public static boolean isFight = false;
-    public static Team team1= new Team();
-    public static Team team2= new Team();
+    public boolean isFight = false;
+    public Team team1= new Team();
+    public Team team2= new Team();
 
     public Characters() {
 

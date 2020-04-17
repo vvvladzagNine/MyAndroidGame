@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import ru.zagidev.RunningGame;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.world.Characters;
 
@@ -53,15 +54,15 @@ public class FightStarter {
             if (Shop.state == GuiState.FIGHTING) {
                 Shop.state = GuiState.IN_GAME;
                 sprite=releasedSprite;
-                Characters.isFight = false;
+                RunningGame.currentGameLevel.characters.isFight = false;
             } else {
                 Shop.state = GuiState.FIGHTING;
                 sprite=pressedSprite;
-                Characters.isFight = true;
-                for (AbstractCharacter c : Characters.team1.getMembers()) {
+                RunningGame.currentGameLevel.characters.isFight = true;
+                for (AbstractCharacter c : RunningGame.currentGameLevel.characters.team1.getMembers()) {
                     c.setNearestEnemyAsATarget();
                 }
-                for (AbstractCharacter c : Characters.team2.getMembers()) {
+                for (AbstractCharacter c : RunningGame.currentGameLevel.characters.team2.getMembers()) {
                     c.setNearestEnemyAsATarget();
                 }
             }

@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import ru.zagidev.sprites.AbstractObject;
 import ru.zagidev.world.WorldMap;
 
+import static ru.zagidev.RunningGame.currentGameLevel;
+
 public class Block extends Actor {
     public Sprite sp;
     static Texture texture = new Texture("data/stena.jpg");
@@ -17,8 +19,8 @@ public class Block extends Actor {
     public int dX;
     private int dY;
 
-    public static int WIDTH = WorldMap.CELL_WIDTH;
-    public static int HEIGHT = WorldMap.CELL_HEIGHT;
+    public static int WIDTH = currentGameLevel.worldMap.CELL_WIDTH;
+    public static int HEIGHT = currentGameLevel.worldMap.CELL_HEIGHT;
 
     public void setdX(int a) {
         this.dX = a;

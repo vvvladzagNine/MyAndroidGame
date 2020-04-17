@@ -34,8 +34,6 @@ import ru.zagidev.world.blocks.BrickWall;
 import ru.zagidev.world.blocks.Water;
 import ru.zagidev.world.blocks.WoodWall;
 
-import static ru.zagidev.world.WorldMap.CELL_HEIGHT;
-import static ru.zagidev.world.WorldMap.CELL_WIDTH;
 
 public class MyAndroidGame extends ApplicationAdapter {
 

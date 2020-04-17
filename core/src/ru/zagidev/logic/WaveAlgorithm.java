@@ -11,6 +11,8 @@ import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.world.Cell;
 import ru.zagidev.world.WorldMap;
 
+import static ru.zagidev.RunningGame.currentGameLevel;
+
 public class WaveAlgorithm implements AbstractObject
 {
     private static Cell[][] table;
@@ -22,7 +24,7 @@ public class WaveAlgorithm implements AbstractObject
     private AbstractCharacter character;
 
     static {
-        table= WorldMap.matrix;
+        table= currentGameLevel.worldMap.matrix;
     }
 
 

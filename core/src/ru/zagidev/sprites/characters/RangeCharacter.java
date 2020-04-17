@@ -14,6 +14,7 @@ import ru.zagidev.world.Effects;
 import ru.zagidev.world.WorldMap;
 import ru.zagidev.world.blocks.Placeable;
 
+import static ru.zagidev.RunningGame.currentGameLevel;
 import static ru.zagidev.RunningGame.getMatricsCords;
 
 public abstract class RangeCharacter extends AbstractCharacter {
@@ -55,7 +56,7 @@ public abstract class RangeCharacter extends AbstractCharacter {
         Point charP = getMatricsCords(character.getCenterX(), character.getCenterY());
         Point p = getMatricsCords(x, y);
         while (!isNear(x,y,target)) {
-            if (!WorldMap.matrix[p.x][p.y].isShooted() && !isNear(x,y,target)){
+            if (!currentGameLevel.worldMap.matrix[p.x][p.y].isShooted() && !isNear(x,y,target)){
                 return -123456789;
             }
 
@@ -77,7 +78,7 @@ public abstract class RangeCharacter extends AbstractCharacter {
 
     @Override
     public void attack() {
-        if (isAlive() && Characters.isFight) {
+        if (isAlive() && currentGameLevel.characters.isFight) {
             if (target == null) {
                 setNearestEnemyAsATarget();
             }

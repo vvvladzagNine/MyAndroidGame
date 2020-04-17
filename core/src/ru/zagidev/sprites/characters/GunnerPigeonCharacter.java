@@ -9,24 +9,18 @@ import java.util.ArrayList;
 import ru.zagidev.world.Team;
 
 public class GunnerPigeonCharacter extends RangeCharacter {
-    static {
-    }
-
-    public GunnerPigeonCharacter(float x, float y) {
-        texture = new Texture("data/pigeon/gunner/ugolub_gun.png");
-        deadTexture = new Texture("data/pigeon/fister/golub_umer1.png");
-        deadTexture2 = new Texture("data/pigeon/fister/golub_umer2.png");
-        animationFightTextures = new ArrayList<>();
-
-        sound = Gdx.audio.newSound(Gdx.files.internal("data/pigeon/pigeon.mp3"));
-        adjustClass(x, y);
-    }
 
     public GunnerPigeonCharacter(float x, float y, Team team) {
-        texture = new Texture("data/pigeon/gunner/ugolub_gun.png");
+        texture = new Texture("data/pigeon/gunner/golub_gun.png");
         deadTexture = new Texture("data/pigeon/fister/golub_umer1.png");
         deadTexture2 = new Texture("data/pigeon/fister/golub_umer2.png");
         animationFightTextures = new ArrayList<>();
+
+
+        //WalkRight
+        animationWalkRightTextures = new ArrayList<>();
+        for (int i = 1; i < 8; i++)
+            animationWalkRightTextures.add(new Texture("data/pigeon/gunner/walkRight/strelok_shag"+i+".png"));
 
         attackReloading=20;
         shotSound =Gdx.audio.newSound(Gdx.files.internal("data/pigeon/gunner/gunshot2.mp3"));;

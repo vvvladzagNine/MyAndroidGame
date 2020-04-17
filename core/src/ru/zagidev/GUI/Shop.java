@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.ArrayList;
 
+import ru.zagidev.RunningGame;
 import ru.zagidev.sprites.characters.CharacterClass;
 import ru.zagidev.world.Characters;
 import ru.zagidev.world.Team;
@@ -23,7 +24,7 @@ public class Shop {
     private OrthographicCamera camera;
     private int size;
     private ShapeRenderer renderer;
-    public static Team currentTeam = Characters.team1;
+    public static Team currentTeam = RunningGame.currentGameLevel.characters.team1;
     private float iconInterval;
     public static int money=100000;
 
@@ -109,10 +110,10 @@ public class Shop {
         t2 = new Texture("ui/ugolubIcon.png");
         t4 = new Texture("ui/ugolubgunicon.png");
 
-        arrayList.add(new CharacterShopIcon(t1,t1, CharacterClass.FISTER,Characters.team1));
-        arrayList.add(new CharacterShopIcon(t3,t3,CharacterClass.SHOTER,Characters.team1));
-        arrayList.add(new CharacterShopIcon(t2,t2,CharacterClass.FISTER,Characters.team2));
-        arrayList.add(new CharacterShopIcon(t4,t4,CharacterClass.SHOTER,Characters.team2));
+        arrayList.add(new CharacterShopIcon(t1,t1, CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team1));
+        arrayList.add(new CharacterShopIcon(t3,t3,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team1));
+        arrayList.add(new CharacterShopIcon(t2,t2,CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team2));
+        arrayList.add(new CharacterShopIcon(t4,t4,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team2));
 
         icon1 = arrayList.get(0);
         icon2 = arrayList.get(1);

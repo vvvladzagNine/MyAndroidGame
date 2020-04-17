@@ -17,6 +17,7 @@ import ru.zagidev.GUI.GuiState;
 import ru.zagidev.GUI.Map;
 import ru.zagidev.GUI.Shop;
 import ru.zagidev.inputHandling.SimpleDirectionGestureDetector;
+import ru.zagidev.levels.GameLevel;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.CharacterFactory;
 import ru.zagidev.sprites.characters.RangeCharacter;
@@ -30,11 +31,13 @@ import ru.zagidev.world.blocks.BrickWall;
 import ru.zagidev.world.blocks.Water;
 import ru.zagidev.world.blocks.WoodWall;
 
-import static ru.zagidev.world.WorldMap.CELL_HEIGHT;
-import static ru.zagidev.world.WorldMap.CELL_WIDTH;
+
 
 public class RunningGame implements Screen {
 
+
+
+    public static GameLevel currentGameLevel;
 
     SpriteBatch batch;
     Vector3 touchPos;
@@ -45,13 +48,9 @@ public class RunningGame implements Screen {
     public static final int X_SIZE = 40;
     public static final int Y_SIZE = 20;
     public static final Block[][] matrix = new Block[X_SIZE][Y_SIZE];
-    private Stage stage;
     private StretchViewport viewport;
     public static OrthographicCamera camera;
-    public static WorldMap worldMap;
-    public static Effects effects;
 
-    public static Characters characters;
 
     private GUI gui;
 
@@ -69,51 +68,57 @@ public class RunningGame implements Screen {
     public static Sound eror;
 
     public static Point getMatricsCords(float x, float y) {
-        float xr = (x /CELL_WIDTH);
-        float yr = (y /CELL_HEIGHT);
+        float xr = (x /currentGameLevel.worldMap.CELL_WIDTH);
+        float yr = (y /currentGameLevel.worldMap.CELL_HEIGHT);
         return new Point((int) xr, (int) yr);
     }
 
     public static Point getRealCords(int x, int y) {
-        int xr = (int) (x * CELL_WIDTH + CELL_WIDTH / 2);
-        int yr = (int) (y * CELL_HEIGHT + CELL_HEIGHT / 2);
+        int xr = (int) (x * currentGameLevel.worldMap.CELL_WIDTH + currentGameLevel.worldMap.CELL_WIDTH / 2);
+        int yr = (int) (y * currentGameLevel.worldMap.CELL_HEIGHT + currentGameLevel.worldMap.CELL_HEIGHT / 2);
         return new Point(xr, yr);
     }
+
+
+
 
 
     public RunningGame() {
 
         eror= Gdx.audio.newSound(Gdx.files.internal("data/sounds/engineer_no01_1.mp3"));
 
-
         VIEW_WIDTH = Gdx.graphics.getWidth();
         VIEW_HEIGHT = Gdx.graphics.getHeight();
-
 
         camera = new OrthographicCamera(VIEW_WIDTH, VIEW_HEIGHT);
         viewport = new StretchViewport(camera.viewportWidth, camera.viewportHeight, camera);
 
-        gui = new GUI(camera);
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
-
-        worldMap = new WorldMap();
-
-        effects = new Effects();
-
-        touchPos = new Vector3();
         batch = new SpriteBatch();
+
+        levelInit();
+
+    }
+
+    private void levelInit() {
+
+        currentGameLevel=new GameLevel(viewport,20,20);
+
+        gui = new GUI(camera);
+
+        Gdx.input.setInputProcessor(currentGameLevel.stage);
+
+
+        currentGameLevel.effects = new Effects();
 
         /**
          * character creating
          */
-        characters = new Characters();
 
-        stage.addActor(worldMap);
+        currentGameLevel.stage.addActor(currentGameLevel.worldMap);
 
-        characters.fillStage(stage);
+        currentGameLevel.characters.fillStage(currentGameLevel.stage);
 
-        stage.addActor(effects);
+        currentGameLevel.stage.addActor(currentGameLevel.effects);
 
         camera.zoom = 1.5f;
 
@@ -137,17 +142,18 @@ public class RunningGame implements Screen {
 
             @Override
             public void tap(float x, float y, int count) {
-                if(count==5) {MyAndroidGame.currentScreen=MyAndroidGame.menueScreen;MyAndroidGame.currentScreen.show();}
+                if(count==5) {
+                    MyAndroidGame.currentScreen=MyAndroidGame.menueScreen;MyAndroidGame.currentScreen.show();}
 
 
                 if(x<Gdx.graphics.getWidth()-200)
                     if(Shop.state== GuiState.PLACING){
                         Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-                        if(v.x<WorldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<WorldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
+                        if(v.x<currentGameLevel.worldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<currentGameLevel.worldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
                             AbstractCharacter c = CharacterFactory.createCharacter(v.x,v.y,Shop.currentClass,Shop.currentTeam);
                             Shop.money-=50;
                             Shop.cashSound.play();
-                            stage.addActor(c);
+                            currentGameLevel.stage.addActor(c);
                         }
                         else {
                             eror.play();
@@ -159,13 +165,12 @@ public class RunningGame implements Screen {
         }));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("data/music/undertale-megalovania-mp3cut.mp3"));
-
     }
 
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        currentGameLevel.stage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -174,8 +179,8 @@ public class RunningGame implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
-        stage.act(delta);
-        stage.draw();
+        currentGameLevel.stage.act(delta);
+        currentGameLevel.stage.draw();
 
 
         batch.setProjectionMatrix(camera.projection);
@@ -188,34 +193,9 @@ public class RunningGame implements Screen {
     public void dispose() {
         batch.dispose();
         BloodExplosion.t.dispose();
-        for(AbstractCharacter c: Characters.team1.getMembers()){
-            c.texture.dispose();
-            c.deadTexture.dispose();
-            c.sound.dispose();
-            c.deadSound.dispose();
-            c.deadTexture2.dispose();
-            for(Texture t :c.animationWalkRightTextures) t.dispose();
-            for(Texture t :c.animationWalkDownTextures) t.dispose();
-            for(Texture t :c.animationWalkUpTextures) t.dispose();
-            for(Texture t :c.animationFightTextures) t.dispose();
-            if(c instanceof RangeCharacter){
-                ((RangeCharacter) c).shotSound.dispose();
-            }
-        }
-        for(AbstractCharacter c: Characters.team2.getMembers()){
-            c.texture.dispose();
-            c.deadTexture.dispose();
-            c.sound.dispose();
-            c.deadSound.dispose();
-            c.deadTexture2.dispose();
-            for(Texture t :c.animationWalkRightTextures) t.dispose();
-            for(Texture t :c.animationWalkDownTextures) t.dispose();
-            for(Texture t :c.animationWalkUpTextures) t.dispose();
-            for(Texture t :c.animationFightTextures) t.dispose();
-            if(c instanceof RangeCharacter){
-                ((RangeCharacter) c).shotSound.dispose();
-            }
-        }
+
+        currentGameLevel.dispose();
+
         BrickWall.texture.dispose();
         Water.texture.dispose();
         WoodWall.texture.dispose();
@@ -246,8 +226,6 @@ public class RunningGame implements Screen {
                 float otn = initialDist / dist;
                 if (otn > 0.3f && otn < 2f)
                     camera.zoom = otn;
-
-
             }
 
             @Override
@@ -264,12 +242,12 @@ public class RunningGame implements Screen {
                 if(x<Gdx.graphics.getWidth()-200)
                     if(Shop.state==GuiState.PLACING){
                         Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-                        if(v.x<WorldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<WorldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
+                        if(v.x<currentGameLevel.worldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<currentGameLevel.worldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
                             AbstractCharacter c =CharacterFactory.createCharacter(v.x,v.y,Shop.currentClass,Shop.currentTeam);
                             c.setNearestEnemyAsATarget();
                             Shop.money-=50;
                             Shop.cashSound.play();
-                            stage.addActor(c);
+                            currentGameLevel.stage.addActor(c);
                         }
                         else {
                             eror.play();
@@ -304,8 +282,6 @@ public class RunningGame implements Screen {
             public void swipe(float x, float y) {
 
                 camera.translate(-x,y,0);
-
-
 //                camYspeed += y * 0.015f;
             }
 
@@ -314,12 +290,12 @@ public class RunningGame implements Screen {
                 if(x<Gdx.graphics.getWidth()-200)
                     if(Shop.state==GuiState.PLACING){
                         Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-                        if(v.x<WorldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<WorldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
+                        if(v.x<currentGameLevel.worldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<currentGameLevel.worldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
                             AbstractCharacter c =CharacterFactory.createCharacter(v.x,v.y,Shop.currentClass,Shop.currentTeam);
                             c.setNearestEnemyAsATarget();
                             Shop.money-=50;
                             Shop.cashSound.play();
-                            stage.addActor(c);
+                            currentGameLevel.stage.addActor(c);
                         }
                         else {
                             eror.play();
