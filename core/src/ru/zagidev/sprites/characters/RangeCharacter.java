@@ -22,6 +22,7 @@ public abstract class RangeCharacter extends AbstractCharacter {
     public Sound shotSound;
     public static float bulletSpeed;
     float angle=0;
+    Color rayColor= Color.BLUE;
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
@@ -29,7 +30,7 @@ public abstract class RangeCharacter extends AbstractCharacter {
         if(isAlive()){
             batch.end();
             renderer.begin();
-            renderer.setColor(Color.RED);
+            renderer.setColor(rayColor);
             renderer.line(getCenterX(),getCenterY(),getCenterX() + 500*(float)Math.cos(angle),getCenterY()+ 500*(float)Math.sin(angle));
             renderer.setProjectionMatrix(RunningGame.camera.combined);
             renderer.end();

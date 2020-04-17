@@ -95,7 +95,8 @@ public abstract class AbstractCharacter extends Actor {
     }
 
 
-    public void directionController2() {
+
+    public void directionControllerVerticalOrHorizontal() {
 
         if (Math.abs(dY) > Math.abs(dX)) {
             if (dY < 0 && animationWalk != animationWalkDown)
@@ -287,23 +288,38 @@ public abstract class AbstractCharacter extends Actor {
                 }
             }
             directionControllerHorizontal();
-            directionController2();
+            directionControllerVerticalOrHorizontal();
         }
         lifeController();
 
     }
 
-    public void init(float x, float y) {
-        init(x, y, null);
+    public void adjustClass(float x, float y) {
+        adjustClass(x, y, null,"",3,1000,50);
     }
 
-    public void init(float x, float y, Team team) {
+
+    /**
+     *
+     * Обязательно вызвать этот метод в конструкторах дочерних классов
+     *
+     * @param x - положение х
+     * @param y - положение у
+     * @param team - команда
+     * @param soundPath - путь к файлу со звуком
+     * @param speed - скорость
+     * @param maxHealth - здоровье
+     * @param damage -урон
+     *
+     */
+    public void adjustClass(float x, float y, Team team, String soundPath, float speed, float maxHealth, float damage) {
         this.team = team;
         if (team != null) {
             team.addMembers(this);
             setEnemyTeam();
         }
-        speed = 5f;
+        this.damage=damage;
+        this.speed = speed;
         path = new ArrayList<>();
         waveAlgorithm = new WaveAlgorithm(this);
         dX = 1;
@@ -321,12 +337,18 @@ public abstract class AbstractCharacter extends Actor {
         setX(sp.getX());
         setY(sp.getY());
         lastdX = dX;
+        MAX_HEALTH=maxHealth;
         currentHealth = MAX_HEALTH;
         lastHealth = currentHealth;
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
 
+        if(soundPath==null && sound==null) throw new RuntimeException("soundPath or sound must be set");
 
+        setSound(soundPath);
+
+
+        //Добавляем текстуры
         animationWalkRight = new ArrayList<>();
         animationWalkDown = new ArrayList<>();
         animationWalkUp = new ArrayList<>();
@@ -355,8 +377,12 @@ public abstract class AbstractCharacter extends Actor {
 
 
     public void changePath(float x, float y) {
-        if (waveAlgorithm.computeDist(getMatricsCords( getCenterX(),getCenterY()), getMatricsCords(x, y)) != -1)
-            path = waveAlgorithm.getPath(getMatricsCords(getCenterX(),getCenterY()), getMatricsCords(x, y));
+        if (waveAlgorithm.computeDist(getMatricsCords(getCenterX(), getCenterY()), getMatricsCords(x, y)) != -1)
+            path = waveAlgorithm.getPath(getMatricsCords(getCenterX(), getCenterY()), getMatricsCords(x, y));
+    }
+
+    protected void setSound(String p){
+        sound= Gdx.audio.newSound(Gdx.files.internal(p));
     }
 
 

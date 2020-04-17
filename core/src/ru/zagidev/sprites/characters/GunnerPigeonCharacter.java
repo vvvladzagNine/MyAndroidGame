@@ -1,6 +1,7 @@
 package ru.zagidev.sprites.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class GunnerPigeonCharacter extends RangeCharacter {
         animationFightTextures = new ArrayList<>();
 
         sound = Gdx.audio.newSound(Gdx.files.internal("data/pigeon/pigeon.mp3"));
-        init(x, y);
+        adjustClass(x, y);
     }
 
     public GunnerPigeonCharacter(float x, float y, Team team) {
@@ -30,12 +31,8 @@ public class GunnerPigeonCharacter extends RangeCharacter {
         attackReloading=20;
         shotSound =Gdx.audio.newSound(Gdx.files.internal("data/pigeon/gunner/gunshot2.mp3"));;
         bulletSpeed=30;
-        sound = Gdx.audio.newSound(Gdx.files.internal("data/pigeon/pigeon.mp3"));
-        init(x, y, team);
-        speed = 2;
-        damage = 100;
-        currentHealth=600;
-        MAX_HEALTH=600;
+        rayColor= Color.GREEN;
+        adjustClass(x, y, team,"data/pigeon/pigeon.mp3",2,600,100);
     }
 
     @Override
