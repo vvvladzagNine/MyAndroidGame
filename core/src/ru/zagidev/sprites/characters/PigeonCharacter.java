@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
+import ru.zagidev.levels.GameLevel;
 import ru.zagidev.world.Team;
 
 public class PigeonCharacter extends MeleeCharacter {
@@ -12,12 +13,10 @@ public class PigeonCharacter extends MeleeCharacter {
 
     }
 
-    public PigeonCharacter(float x, float y) {
-        this(x,y,null);
-    }
 
 
-    public PigeonCharacter(float x, float y, Team team) {
+    public PigeonCharacter(float x, float y, Team team, GameLevel level) {
+        this.level=level;
         texture = new Texture("data/pigeon/fister/ugolub.png");
         deadTexture = new Texture("data/pigeon/fister/golub_umer1.png");
         deadTexture2 = new Texture("data/pigeon/fister/golub_umer2.png");

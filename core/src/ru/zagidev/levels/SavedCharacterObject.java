@@ -3,10 +3,10 @@ package ru.zagidev.levels;
 import ru.zagidev.sprites.characters.CharacterClass;
 
 public class SavedCharacterObject {
-    boolean isFirstTeam=false;
-    CharacterClass c;
-    int x;
-    int y;
+   public boolean isFirstTeam=false;
+   public CharacterClass c;
+   public int x;
+   public int y;
 
     public SavedCharacterObject(CharacterClass c, int x, int y) {
         this.c = c;

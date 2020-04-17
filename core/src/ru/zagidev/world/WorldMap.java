@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.zagidev.RunningGame;
+import ru.zagidev.levels.GameLevelManager;
+import ru.zagidev.levels.SavedWorldObject;
 import ru.zagidev.sprites.characters.DuckCharacter;
 import ru.zagidev.sprites.characters.PigeonCharacter;
 import ru.zagidev.sprites.effects.BloodExplosion;
@@ -20,8 +22,8 @@ public class WorldMap extends Actor {
     public  float GAME_WORLD_WIDTH;
     public  float GAME_WORLD_HEIGHT;
 
-    public final int CELL_WIDTH = 120;
-    public final int CELL_HEIGHT = 120;
+    public static final int CELL_WIDTH = 120;
+    public static final int CELL_HEIGHT = 120;
 
     public final int X_SIZE;
     public final int Y_SIZE;
@@ -36,7 +38,9 @@ public class WorldMap extends Actor {
 
 
 
-    public WorldMap(int x_s,int y_s) {
+
+
+    public WorldMap(int x_s, int y_s, List<SavedWorldObject> objectList) {
         X_SIZE=x_s;
         Y_SIZE=y_s;
         matrix = new Cell[Y_SIZE][X_SIZE];
@@ -58,20 +62,23 @@ public class WorldMap extends Actor {
         }
 
 
-        for (int i = 0; i < Y_SIZE; i++) {
-            if (i != 6 && i!=2 && i!=3 && i!=14)
-                addPlaceable(BlockType.BRICK,9, i,false);
-        }
+        for(SavedWorldObject s:objectList)
+            addPlaceable(s.type,s.x, s.y,s.placeable);
 
-        for (int i = 0; i < Y_SIZE; i++) {
-            if (i != 2 && i!=17)
-                addPlaceable(BlockType.BRICK,15, i,false);
-        }
-
-        for (int i = 0; i < X_SIZE; i++) {
-            if (i != 8 && i!=9 && i!=4)
-                addPlaceable(BlockType.WOOD,i, 6,false);
-        }
+//        for (int i = 0; i < Y_SIZE; i++) {
+//            if (i != 6 && i!=2 && i!=3 && i!=14)
+//
+//        }
+//
+//        for (int i = 0; i < Y_SIZE; i++) {
+//            if (i != 2 && i!=17)
+//                addPlaceable(BlockType.BRICK,15, i,false);
+//        }
+//
+//        for (int i = 0; i < X_SIZE; i++) {
+//            if (i != 8 && i!=9 && i!=4)
+//                addPlaceable(BlockType.WOOD,i, 6,false);
+//        }
 
     }
 

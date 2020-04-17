@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 import ru.zagidev.Point;
 import ru.zagidev.RunningGame;
+import ru.zagidev.levels.GameLevel;
 import ru.zagidev.logic.WaveAlgorithm;
-import ru.zagidev.world.Characters;
 import ru.zagidev.world.Team;
 import ru.zagidev.world.WorldMap;
 
@@ -22,6 +22,8 @@ import static ru.zagidev.RunningGame.getMatricsCords;
 import static ru.zagidev.RunningGame.getRealCords;
 
 public abstract class AbstractCharacter extends Actor {
+
+    public GameLevel level;
 
     public Sprite sp;
     public Texture texture;
@@ -33,7 +35,6 @@ public abstract class AbstractCharacter extends Actor {
     protected float dY;
     public AbstractCharacter target;
     public float speed;
-    public WorldMap worldMap = RunningGame.currentGameLevel.worldMap;
     public Team team;
     private Team enemyTeam;
     protected float MAX_HEALTH = 1000;
@@ -148,10 +149,10 @@ public abstract class AbstractCharacter extends Actor {
 
     private void setEnemyTeam() {
         if (team != null) {
-            if (RunningGame.currentGameLevel.characters.team1 == team) {
-                enemyTeam = RunningGame.currentGameLevel.characters.team2;
+            if (level.characters.team1 == team) {
+                enemyTeam = level.characters.team2;
             } else {
-                enemyTeam = RunningGame.currentGameLevel.characters.team1;
+                enemyTeam = level.characters.team1;
             }
         }
     }
@@ -333,7 +334,7 @@ public abstract class AbstractCharacter extends Actor {
             dead = new Sprite(deadTexture2, 120, 100);
         sp = stay;
         sp.setPosition(x, y);
-        meshPoint = getMatricsCords((int) getCenterX(), (int) getCenterY());
+        meshPoint = getMatricsCords((int) getCenterX(), (int) getCenterY(),level);
         setX(sp.getX());
         setY(sp.getY());
         lastdX = dX;

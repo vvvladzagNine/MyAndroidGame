@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.List;
+
 import ru.zagidev.GUI.Map;
 import ru.zagidev.GUI.Shop;
 import ru.zagidev.sprites.characters.AbstractCharacter;
@@ -23,12 +25,22 @@ public class GameLevel {
     public Characters characters;
     public Stage stage;
     public Effects effects;
+    private Viewport viewport;
 
-    public GameLevel(Viewport vp,int xSize,int ySize) {
-        worldMap=new WorldMap(xSize,ySize);
-        characters=new Characters();
-        stage=new Stage(vp);
+    public GameLevel(
+            Viewport vp,
+            int xSize,
+            int ySize,
+            List<SavedWorldObject> objectList) {
+        viewport=vp;
+        worldMap=new WorldMap(xSize,ySize,objectList);
     }
+
+     void fillLevel(List<SavedCharacterObject> characterList){
+         characters=new Characters();
+         characters.init(this,characterList);
+         stage=new Stage(viewport);
+     }
 
     public void dispose() {
         for(AbstractCharacter c: characters.team1.getMembers()){

@@ -6,23 +6,17 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
+import ru.zagidev.levels.GameLevel;
 import ru.zagidev.world.Team;
 
 public class GunnerDuckCharacter extends RangeCharacter {
     static {
     }
 
-    public GunnerDuckCharacter(float x, float y) {
-        texture = new Texture("data/duck/fister/utya.png");
-        deadTexture = new Texture("data/duck/fister/utyaDead.png");
-        deadTexture2 = new Texture("data/duck/fister/utya_zdokh2.png");
-        animationFightTextures = new ArrayList<>();
 
-        sound = Gdx.audio.newSound(Gdx.files.internal("data/duck/sound/quack.mp3"));
-        adjustClass(x, y);
-    }
 
-    public GunnerDuckCharacter(float x, float y, Team team) {
+    public GunnerDuckCharacter(float x, float y, Team team, GameLevel level) {
+        this.level=level;
         texture = new Texture("data/duck/gunner/utya_gun.png");
         deadTexture = new Texture("data/duck/fister/utyaDead.png");
         deadTexture2 = new Texture("data/duck/fister/utya_zdokh2.png");

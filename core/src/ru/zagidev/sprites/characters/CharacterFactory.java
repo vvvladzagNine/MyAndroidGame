@@ -9,14 +9,14 @@ public class CharacterFactory {
         switch (c) {
             case FISTER:
                 if (team == RunningGame.currentGameLevel.characters.team1)
-                    return new DuckCharacter(x, y, RunningGame.currentGameLevel.characters.team1);
+                    return new DuckCharacter(x, y, RunningGame.currentGameLevel.characters.team1,RunningGame.currentGameLevel);
                 else if (team == RunningGame.currentGameLevel.characters.team2)
-                    return new PigeonCharacter(x, y, RunningGame.currentGameLevel.characters.team2);
+                    return new PigeonCharacter(x, y, RunningGame.currentGameLevel.characters.team2,RunningGame.currentGameLevel);
             case SHOTER:
                 if (team == RunningGame.currentGameLevel.characters.team1)
-                    return new GunnerDuckCharacter(x, y, RunningGame.currentGameLevel.characters.team1);
+                    return new GunnerDuckCharacter(x, y, RunningGame.currentGameLevel.characters.team1,RunningGame.currentGameLevel);
                 else if (team == RunningGame.currentGameLevel.characters.team2)
-                    return new GunnerPigeonCharacter(x, y, RunningGame.currentGameLevel.characters.team2);
+                    return new GunnerPigeonCharacter(x, y, RunningGame.currentGameLevel.characters.team2,RunningGame.currentGameLevel);
             default:
                 return null;
 

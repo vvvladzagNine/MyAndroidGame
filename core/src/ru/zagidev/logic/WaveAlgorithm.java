@@ -15,7 +15,7 @@ import static ru.zagidev.RunningGame.currentGameLevel;
 
 public class WaveAlgorithm implements AbstractObject
 {
-    private static Cell[][] table;
+    private Cell[][] table;
     private int rows;
     private int cols;
     private Point startPoint;
@@ -23,9 +23,6 @@ public class WaveAlgorithm implements AbstractObject
     private LinkedHashMap<String,Point> previousPoints;
     private AbstractCharacter character;
 
-    static {
-        table= currentGameLevel.worldMap.matrix;
-    }
 
 
     /**
@@ -34,6 +31,8 @@ public class WaveAlgorithm implements AbstractObject
      */
     public WaveAlgorithm(AbstractCharacter c)
     {
+
+        table= c.level.worldMap.matrix;
         character=c;
         this.rows = table.length;
         this.cols = table[0].length;

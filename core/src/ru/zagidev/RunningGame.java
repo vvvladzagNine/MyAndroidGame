@@ -18,6 +18,7 @@ import ru.zagidev.GUI.Map;
 import ru.zagidev.GUI.Shop;
 import ru.zagidev.inputHandling.SimpleDirectionGestureDetector;
 import ru.zagidev.levels.GameLevel;
+import ru.zagidev.levels.GameLevelManager;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.CharacterFactory;
 import ru.zagidev.sprites.characters.RangeCharacter;
@@ -51,6 +52,8 @@ public class RunningGame implements Screen {
     private StretchViewport viewport;
     public static OrthographicCamera camera;
 
+    public static GameLevelManager gameLevelManager;
+
 
     private GUI gui;
 
@@ -79,6 +82,18 @@ public class RunningGame implements Screen {
         return new Point(xr, yr);
     }
 
+    public static Point getMatricsCords(float x, float y,GameLevel level) {
+        float xr = (x /level.worldMap.CELL_WIDTH);
+        float yr = (y /level.worldMap.CELL_HEIGHT);
+        return new Point((int) xr, (int) yr);
+    }
+
+    public static Point getRealCords(int x, int y,GameLevel level) {
+        int xr = (int) (x * level.worldMap.CELL_WIDTH + level.worldMap.CELL_WIDTH / 2);
+        int yr = (int) (y * level.worldMap.CELL_HEIGHT + level.worldMap.CELL_HEIGHT / 2);
+        return new Point(xr, yr);
+    }
+
 
 
 
@@ -93,6 +108,8 @@ public class RunningGame implements Screen {
         camera = new OrthographicCamera(VIEW_WIDTH, VIEW_HEIGHT);
         viewport = new StretchViewport(camera.viewportWidth, camera.viewportHeight, camera);
 
+        gameLevelManager=new GameLevelManager(true,viewport);
+
         batch = new SpriteBatch();
 
         levelInit();
@@ -101,7 +118,7 @@ public class RunningGame implements Screen {
 
     private void levelInit() {
 
-        currentGameLevel=new GameLevel(viewport,20,20);
+        currentGameLevel=gameLevelManager.levels.get(0);
 
         gui = new GUI(camera);
 
