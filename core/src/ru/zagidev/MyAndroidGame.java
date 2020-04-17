@@ -40,6 +40,8 @@ import static ru.zagidev.world.WorldMap.CELL_WIDTH;
 public class MyAndroidGame extends ApplicationAdapter {
 
     public static Screen currentScreen;
+
+
     public static Screen gameScreen;
     public static Screen menueScreen;
 
@@ -47,6 +49,7 @@ public class MyAndroidGame extends ApplicationAdapter {
     @Override
     public void create() {
         gameScreen=new RunningGame();
+
         menueScreen=new TestScreen();
         currentScreen=gameScreen;
     }

@@ -138,6 +138,8 @@ public class RunningGame implements Screen {
             @Override
             public void tap(float x, float y, int count) {
                 if(count==5) {MyAndroidGame.currentScreen=MyAndroidGame.menueScreen;MyAndroidGame.currentScreen.show();}
+
+
                 if(x<Gdx.graphics.getWidth()-200)
                     if(Shop.state== GuiState.PLACING){
                         Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
