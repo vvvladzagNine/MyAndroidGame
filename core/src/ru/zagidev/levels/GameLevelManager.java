@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import ru.zagidev.save.JsonBlock;
+import ru.zagidev.save.JsonChar;
+import ru.zagidev.save.Loader;
+import ru.zagidev.save.SavedGameLevel;
 import ru.zagidev.sprites.characters.CharacterClass;
 import ru.zagidev.world.BlockType;
 
@@ -13,21 +17,83 @@ public class GameLevelManager {
 
     public List<GameLevel> levels;
     Viewport viewport;
+    public static Loader loader;
 
     public GameLevelManager(boolean internalSources,Viewport viewport) {
+        loader=new Loader();
         this.viewport=viewport;
+        levels = new ArrayList<>();
         if (internalSources) {
             initLevels();
+        }else {
+            SavedGameLevel s = loader.load();
+            loadLevels(s);
         }
+
     }
 
 
 
 
     void initLevels() {
-        levels = new ArrayList<>();
         addLevel1();
+    }
 
+
+    void loadLevels(SavedGameLevel s) {
+        loadLevel1(s);
+    }
+
+
+
+    CharacterClass getCharClass(String s){
+        switch (s){
+            case "FISTER":return CharacterClass.FISTER;
+            case "SHOTER":return CharacterClass.SHOTER;
+            default:return CharacterClass.FISTER;
+        }
+    }
+
+    BlockType getBlockType(String s){
+        switch (s){
+            case "BRICK":return BlockType.BRICK;
+            case "WATER":return BlockType.WATER;
+            case "WOOD":return BlockType.WOOD;
+            default:return BlockType.WOOD;
+        }
+    }
+
+    boolean getBlockShooted(String s){
+        switch (s){
+            case "BRICK":return false;
+            case "WATER":return true;
+            case "WOOD":return false;
+            default:return false;
+        }
+    }
+
+
+
+    void loadLevel1(SavedGameLevel s) {
+        int ys = s.xSize;
+        int xs = s.ySize;
+
+        List<SavedCharacterObject> objects2 = new ArrayList<>();
+        for(JsonChar jsonChar:s.chars)
+            objects2.add(new SavedCharacterObject(getCharClass(jsonChar.type),jsonChar.x,jsonChar.y));
+
+        List<SavedWorldObject> objects = new ArrayList<>();
+        for(JsonBlock jsonBlock:s.blocks)
+            objects.add(new SavedWorldObject(getBlockType(jsonBlock.type),jsonBlock.x,jsonBlock.y, getBlockShooted(jsonBlock.type)));
+
+
+
+
+
+        GameLevel gl =new GameLevel(viewport,xs,ys,objects);
+        gl.fillLevel(objects2);
+
+        levels.add(gl);
     }
 
     void addLevel1() {

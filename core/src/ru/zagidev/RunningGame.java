@@ -108,7 +108,7 @@ public class RunningGame implements Screen {
         camera = new OrthographicCamera(VIEW_WIDTH, VIEW_HEIGHT);
         viewport = new StretchViewport(camera.viewportWidth, camera.viewportHeight, camera);
 
-        gameLevelManager=new GameLevelManager(true,viewport);
+        gameLevelManager=new GameLevelManager(false,viewport);
 
         batch = new SpriteBatch();
 
