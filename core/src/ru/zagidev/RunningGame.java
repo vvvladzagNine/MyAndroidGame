@@ -112,13 +112,13 @@ public class RunningGame implements Screen {
 
         batch = new SpriteBatch();
 
-        levelInit();
+        levelInit(0);
 
     }
 
-    private void levelInit() {
+    private void levelInit(int i) {
 
-        currentGameLevel=gameLevelManager.levels.get(0);
+        currentGameLevel=gameLevelManager.levels.get(i);
 
         gui = new GUI(camera);
 
@@ -203,6 +203,13 @@ public class RunningGame implements Screen {
         batch.setProjectionMatrix(camera.projection);
         gui.draw(batch);
         gui.update();
+        boolean stay=false;
+        for(AbstractCharacter c:currentGameLevel.characters.team2.getMembers()){
+            stay=stay || c.isAlive();
+        }
+        if(!stay){
+            levelInit(gameLevelManager.levels.indexOf(currentGameLevel)+1);
+        }
 
     }
 

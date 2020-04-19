@@ -43,7 +43,7 @@ public class WorldMap extends Actor {
     public WorldMap(int x_s, int y_s, List<SavedWorldObject> objectList) {
         X_SIZE=x_s;
         Y_SIZE=y_s;
-        matrix = new Cell[Y_SIZE][X_SIZE];
+        matrix = new Cell[X_SIZE][Y_SIZE];
         GAME_WORLD_WIDTH= CELL_WIDTH*X_SIZE;
         GAME_WORLD_HEIGHT= CELL_HEIGHT*Y_SIZE;
 

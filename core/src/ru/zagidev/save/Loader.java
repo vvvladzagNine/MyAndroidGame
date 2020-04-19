@@ -24,13 +24,13 @@ public class Loader {
 
     }
 
-    public SavedGameLevel load(){
+    public SavedGameLevel load(String s){
         try {
             String locRoot = Gdx.files.getLocalStoragePath();
-            FileHandle path = Gdx.files.internal("data/levels/levels628.json");
+            FileHandle path = Gdx.files.internal("data/levels/levels"+s+".json");
             InputStream is = path.read();
-            SavedGameLevel s = mapper.readValue(is, SavedGameLevel.class);
-            return s;
+            SavedGameLevel savedGameLevel = mapper.readValue(is, SavedGameLevel.class);
+            return savedGameLevel;
         } catch (IOException e) {
             e.printStackTrace();
             return null;

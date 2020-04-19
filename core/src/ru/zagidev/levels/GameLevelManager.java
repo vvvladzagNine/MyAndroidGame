@@ -26,8 +26,8 @@ public class GameLevelManager {
         if (internalSources) {
             initLevels();
         }else {
-            SavedGameLevel s = loader.load();
-            loadLevels(s);
+
+            loadLevels();
         }
 
     }
@@ -40,8 +40,12 @@ public class GameLevelManager {
     }
 
 
-    void loadLevels(SavedGameLevel s) {
-        loadLevel1(s);
+    void loadLevels() {
+
+        loadLevel("146");
+        loadLevel("628");
+
+
     }
 
 
@@ -74,9 +78,12 @@ public class GameLevelManager {
 
 
 
-    void loadLevel1(SavedGameLevel s) {
-        int ys = s.xSize;
-        int xs = s.ySize;
+    void loadLevel(String fileName) {
+
+        SavedGameLevel s = loader.load(fileName);
+
+        int ys = s.ySize;
+        int xs = s.xSize;
 
         List<SavedCharacterObject> objects2 = new ArrayList<>();
         for(JsonChar jsonChar:s.chars)
@@ -131,7 +138,7 @@ public class GameLevelManager {
                 objects.add(new SavedWorldObject(BlockType.BRICK, 10, i, false));
         }
 
-        GameLevel gl =new GameLevel(viewport,20,20,objects);
+        GameLevel gl =new GameLevel(viewport,xs,ys,objects);
         gl.fillLevel(objects2);
 
         levels.add(gl);

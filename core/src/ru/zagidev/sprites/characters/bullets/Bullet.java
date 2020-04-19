@@ -60,7 +60,7 @@ public class Bullet extends Actor {
                     sprite.getY()<(c.sp.getY()+c.sp.getHeight())
             ){
                 if(c.isAlive()){
-                    c.currentHealth-=100;
+                    c.currentHealth-=damage;
                     c.sound.play();
                     remove();
                 }
