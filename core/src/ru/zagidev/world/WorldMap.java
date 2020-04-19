@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.zagidev.RunningGame;
+import ru.zagidev.levels.GameLevel;
 import ru.zagidev.levels.GameLevelManager;
 import ru.zagidev.levels.SavedWorldObject;
+import ru.zagidev.save.GreenZone;
 import ru.zagidev.sprites.characters.DuckCharacter;
 import ru.zagidev.sprites.characters.PigeonCharacter;
 import ru.zagidev.sprites.effects.BloodExplosion;
@@ -35,17 +37,23 @@ public class WorldMap extends Actor {
 
     public ArrayList<BloodExplosion> explosions;
 
+    public List<GreenZone> greenZones;
 
 
 
 
 
-    public WorldMap(int x_s, int y_s, List<SavedWorldObject> objectList) {
+
+    public WorldMap(int x_s, int y_s, List<SavedWorldObject> objectList, List<GreenZone> zones) {
         X_SIZE=x_s;
         Y_SIZE=y_s;
         matrix = new Cell[X_SIZE][Y_SIZE];
         GAME_WORLD_WIDTH= CELL_WIDTH*X_SIZE;
         GAME_WORLD_HEIGHT= CELL_HEIGHT*Y_SIZE;
+        greenZones=zones;
+
+
+
 
 
         explosions=new ArrayList<>();
@@ -59,6 +67,10 @@ public class WorldMap extends Actor {
                 matrix[row][col] = new Cell(CELL_WIDTH * row, CELL_HEIGHT * col, CELL_WIDTH, CELL_HEIGHT);
                 cells.add(matrix[row][col]);
             }
+        }
+
+        for(GreenZone g:greenZones){
+            matrix[g.x][g.y].green=true;
         }
 
 

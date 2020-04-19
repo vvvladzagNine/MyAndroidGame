@@ -25,6 +25,7 @@ public class Shop {
     private int size;
     private ShapeRenderer renderer;
     public static Team currentTeam = RunningGame.currentGameLevel.characters.team1;
+    public static int currentPrice;
     private float iconInterval;
     public static int money=100000;
 
@@ -110,10 +111,10 @@ public class Shop {
         t2 = new Texture("ui/ugolubIcon.png");
         t4 = new Texture("ui/ugolubgunicon.png");
 
-        arrayList.add(new CharacterShopIcon(t1,t1, CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team1));
-        arrayList.add(new CharacterShopIcon(t3,t3,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team1));
-        arrayList.add(new CharacterShopIcon(t2,t2,CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team2));
-        arrayList.add(new CharacterShopIcon(t4,t4,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team2));
+        arrayList.add(new CharacterShopIcon(t1,t1, CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team1,50));
+        arrayList.add(new CharacterShopIcon(t3,t3,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team1,100));
+        arrayList.add(new CharacterShopIcon(t2,t2,CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team2,50));
+        arrayList.add(new CharacterShopIcon(t4,t4,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team2,100));
 
         icon1 = arrayList.get(0);
         icon2 = arrayList.get(1);

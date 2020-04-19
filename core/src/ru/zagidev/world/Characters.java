@@ -38,8 +38,8 @@ public class Characters {
         for(SavedCharacterObject s:characterList){
             if(!s.isFirstTeam){
                 switch (s.c){
-                    case FISTER: new PigeonCharacter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT,team2,level);
-                    case SHOTER: new GunnerPigeonCharacter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT,team2,level);
+                    case FISTER: new PigeonCharacter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT,team2,level);break;
+                    case SHOTER: new GunnerPigeonCharacter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT,team2,level);break;
                 }
 
             }

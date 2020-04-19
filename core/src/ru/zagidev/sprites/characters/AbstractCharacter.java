@@ -75,6 +75,8 @@ public abstract class AbstractCharacter extends Actor {
     protected float lastdX;
     protected float lastdY;
 
+    public int price=50;
+
     public Sound sound;
 
     public Sound deadSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/roblox-death-sound_1.mp3"));
@@ -296,7 +298,7 @@ public abstract class AbstractCharacter extends Actor {
     }
 
     public void adjustClass(float x, float y) {
-        adjustClass(x, y, null,"",3,1000,50);
+        adjustClass(x, y, null,"",3,1000,50,50);
     }
 
 
@@ -313,12 +315,13 @@ public abstract class AbstractCharacter extends Actor {
      * @param damage -урон
      *
      */
-    public void adjustClass(float x, float y, Team team, String soundPath, float speed, float maxHealth, float damage) {
+    public void adjustClass(float x, float y, Team team, String soundPath, float speed, float maxHealth, float damage,int price) {
         this.team = team;
         if (team != null) {
             team.addMembers(this);
             setEnemyTeam();
         }
+        this.price=price;
         this.damage=damage;
         this.speed = speed;
         path = new ArrayList<>();

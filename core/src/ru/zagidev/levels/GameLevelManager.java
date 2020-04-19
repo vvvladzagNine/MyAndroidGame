@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import ru.zagidev.save.GreenZone;
 import ru.zagidev.save.JsonBlock;
 import ru.zagidev.save.JsonChar;
 import ru.zagidev.save.Loader;
@@ -18,18 +19,22 @@ public class GameLevelManager {
     public List<GameLevel> levels;
     Viewport viewport;
     public static Loader loader;
-
+    public boolean internalSources;
     public GameLevelManager(boolean internalSources,Viewport viewport) {
         loader=new Loader();
         this.viewport=viewport;
+        this.internalSources =internalSources;
+        reload();
+
+    }
+
+    public void reload(){
         levels = new ArrayList<>();
         if (internalSources) {
             initLevels();
         }else {
-
             loadLevels();
         }
-
     }
 
 
@@ -42,6 +47,7 @@ public class GameLevelManager {
 
     void loadLevels() {
 
+        loadLevel("429");
         loadLevel("146");
         loadLevel("628");
 
@@ -97,7 +103,7 @@ public class GameLevelManager {
 
 
 
-        GameLevel gl =new GameLevel(viewport,xs,ys,objects);
+        GameLevel gl =new GameLevel(viewport,xs,ys,s.money,s.greens,objects);
         gl.fillLevel(objects2);
 
         levels.add(gl);
@@ -138,7 +144,7 @@ public class GameLevelManager {
                 objects.add(new SavedWorldObject(BlockType.BRICK, 10, i, false));
         }
 
-        GameLevel gl =new GameLevel(viewport,xs,ys,objects);
+        GameLevel gl =new GameLevel(viewport,xs,ys,500 ,new ArrayList<GreenZone>(),objects);
         gl.fillLevel(objects2);
 
         levels.add(gl);

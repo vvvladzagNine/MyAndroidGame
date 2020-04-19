@@ -8,6 +8,7 @@ import java.util.List;
 
 import ru.zagidev.GUI.Map;
 import ru.zagidev.GUI.Shop;
+import ru.zagidev.save.GreenZone;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.RangeCharacter;
 import ru.zagidev.sprites.characters.bullets.Bullet;
@@ -26,14 +27,21 @@ public class GameLevel {
     public Stage stage;
     public Effects effects;
     private Viewport viewport;
+    public List<GreenZone> greenZones;
+    public int money;
 
     public GameLevel(
             Viewport vp,
             int xSize,
             int ySize,
+            int money,
+            List<GreenZone> greenZones,
             List<SavedWorldObject> objectList) {
+        this.greenZones=greenZones;
+        this.money=money;
         viewport=vp;
-        worldMap=new WorldMap(xSize,ySize,objectList);
+        worldMap=new WorldMap(xSize,ySize,objectList,greenZones);
+
     }
 
      void fillLevel(List<SavedCharacterObject> characterList){

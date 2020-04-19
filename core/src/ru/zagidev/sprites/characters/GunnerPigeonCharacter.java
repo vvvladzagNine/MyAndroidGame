@@ -24,11 +24,21 @@ public class GunnerPigeonCharacter extends RangeCharacter {
         for (int i = 1; i < 8; i++)
             animationWalkRightTextures.add(new Texture("data/pigeon/gunner/walkRight/strelok_shag"+i+".png"));
 
+        //Walk DOwn
+        animationWalkDownTextures = new ArrayList<>();
+        for (int i = 1; i < 9; i++)
+            animationWalkDownTextures.add(new Texture("data/pigeon/gunner/walkDown/strelok_vpered"+i+".png"));
+
+        //Walk Up
+        animationWalkUpTextures = new ArrayList<>();
+        for (int i = 1; i < 9; i++)
+            animationWalkUpTextures.add(new Texture("data/pigeon/gunner/walkUp/strelok_nazad"+i+".png"));
+
         attackReloading=20;
         shotSound =Gdx.audio.newSound(Gdx.files.internal("data/pigeon/gunner/gunshot2.mp3"));;
         bulletSpeed=30;
         rayColor= Color.GREEN;
-        adjustClass(x, y, team,"data/pigeon/pigeon.mp3",2,600,100);
+        adjustClass(x, y, team,"data/pigeon/pigeon.mp3",2,600,100,85);
     }
 
     @Override

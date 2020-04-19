@@ -43,7 +43,7 @@ public class PigeonCharacter extends MeleeCharacter {
         animationFightTextures = new ArrayList<>();
 
 
-        adjustClass(x, y, team,"data/pigeon/pigeon.mp3",2,1000,100);
+        adjustClass(x, y, team,"data/pigeon/pigeon.mp3",2,1000,100,50);
     }
 
     @Override

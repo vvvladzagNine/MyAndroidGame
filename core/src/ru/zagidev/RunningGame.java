@@ -8,9 +8,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+
+import javax.swing.Renderer;
 
 import ru.zagidev.GUI.GUI;
 import ru.zagidev.GUI.GuiState;
@@ -19,6 +22,7 @@ import ru.zagidev.GUI.Shop;
 import ru.zagidev.inputHandling.SimpleDirectionGestureDetector;
 import ru.zagidev.levels.GameLevel;
 import ru.zagidev.levels.GameLevelManager;
+import ru.zagidev.save.GreenZone;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.CharacterFactory;
 import ru.zagidev.sprites.characters.RangeCharacter;
@@ -51,6 +55,7 @@ public class RunningGame implements Screen {
     public static final Block[][] matrix = new Block[X_SIZE][Y_SIZE];
     private StretchViewport viewport;
     public static OrthographicCamera camera;
+
 
     public static GameLevelManager gameLevelManager;
 
@@ -100,6 +105,8 @@ public class RunningGame implements Screen {
 
     public RunningGame() {
 
+
+
         eror= Gdx.audio.newSound(Gdx.files.internal("data/sounds/engineer_no01_1.mp3"));
 
         VIEW_WIDTH = Gdx.graphics.getWidth();
@@ -118,9 +125,12 @@ public class RunningGame implements Screen {
 
     private void levelInit(int i) {
 
+
+        gameLevelManager.reload();
         currentGameLevel=gameLevelManager.levels.get(i);
 
         gui = new GUI(camera);
+        Shop.money=currentGameLevel.money;
 
         Gdx.input.setInputProcessor(currentGameLevel.stage);
 
@@ -166,9 +176,12 @@ public class RunningGame implements Screen {
                 if(x<Gdx.graphics.getWidth()-200)
                     if(Shop.state== GuiState.PLACING){
                         Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-                        if(v.x<currentGameLevel.worldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<currentGameLevel.worldMap.GAME_WORLD_HEIGHT-50 && v.y>50){
+                        Point point = getMatricsCords(v.x,v.y);
+                        if(v.x<currentGameLevel.worldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<currentGameLevel.worldMap.GAME_WORLD_HEIGHT-50 && v.y>50
+                            && (isInGreen(point)) && ((Shop.money-Shop.currentPrice) >= 0)
+                        ){
                             AbstractCharacter c = CharacterFactory.createCharacter(v.x,v.y,Shop.currentClass,Shop.currentTeam);
-                            Shop.money-=50;
+                            Shop.money-=Shop.currentPrice;
                             Shop.cashSound.play();
                             currentGameLevel.stage.addActor(c);
                         }
@@ -184,6 +197,14 @@ public class RunningGame implements Screen {
         music = Gdx.audio.newMusic(Gdx.files.internal("data/music/undertale-megalovania-mp3cut.mp3"));
     }
 
+    public boolean isInGreen(Point p){
+        boolean inGreen=false;
+        for(GreenZone g:currentGameLevel.greenZones){
+            inGreen= inGreen || (g.x==p.x && g.y==p.y);
+        }
+        return inGreen;
+    }
+
 
     @Override
     public void resize(int width, int height) {
@@ -192,24 +213,42 @@ public class RunningGame implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.12f, 0.50f, 0.12f, 0.5f);
+        Gdx.gl.glClearColor(0.09f, 0.40f, 0.09f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
         currentGameLevel.stage.act(delta);
+
+
         currentGameLevel.stage.draw();
 
 
         batch.setProjectionMatrix(camera.projection);
         gui.draw(batch);
         gui.update();
+
+
         boolean stay=false;
         for(AbstractCharacter c:currentGameLevel.characters.team2.getMembers()){
             stay=stay || c.isAlive();
         }
         if(!stay){
+            Shop.state=GuiState.IN_GAME;
             levelInit(gameLevelManager.levels.indexOf(currentGameLevel)+1);
         }
+
+        if(Shop.state==GuiState.FIGHTING){
+            boolean restart=false;
+            for(AbstractCharacter c:currentGameLevel.characters.team1.getMembers()){
+                restart=restart || c.isAlive();
+            }
+            if(!restart){
+                Shop.state=GuiState.IN_GAME;
+                levelInit(gameLevelManager.levels.indexOf(currentGameLevel));
+            }
+        }
+
+
 
     }
 
@@ -238,6 +277,9 @@ public class RunningGame implements Screen {
         eror.dispose();
         Bullet.texture.dispose();
         Bullet.hitmarker.dispose();
+        for(GameLevel g:gameLevelManager.levels){
+            g.dispose();
+        }
     }
 
     @Override

@@ -40,7 +40,6 @@ public class WaveAlgorithm implements AbstractObject
 
 
 
-
     public void setStartPoint(Point startPoint) {
         this.startPoint = startPoint;
     }

@@ -1,8 +1,11 @@
 package ru.zagidev.world;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import ru.zagidev.GUI.GuiState;
+import ru.zagidev.GUI.Shop;
 import ru.zagidev.world.blocks.Placeable;
 
 public class Cell {
@@ -13,6 +16,7 @@ public class Cell {
     public float width;
     public float height;
     public Placeable placeable;
+    public boolean green = false;
 
     private boolean shooted;
 
@@ -39,14 +43,19 @@ public class Cell {
 
     public void drawCell(ShapeRenderer renderer) {
         if (!isPlaced())
+            renderer.setColor(Color.WHITE);
             renderer.rect(x, y, width, height);
+        if (Shop.state != GuiState.FIGHTING && green) {
+            renderer.setColor(Color.GREEN);
+            renderer.rect(x,y,width,height);
+            renderer.rect(x+8,y+8,width-16,height-16);
+        }
 
     }
 
     public void drawPlaceable(Batch batch) {
         if (isPlaced())
             placeable.getSprite().draw(batch);
-
     }
 
     public void place(Placeable p) {
@@ -62,8 +71,8 @@ public class Cell {
         placeable = p;
     }
 
-    public void justPlace(Placeable p,boolean shooted) {
-        this.shooted=shooted;
+    public void justPlace(Placeable p, boolean shooted) {
+        this.shooted = shooted;
         placeable = p;
     }
 
