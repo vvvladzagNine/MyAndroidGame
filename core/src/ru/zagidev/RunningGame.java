@@ -56,6 +56,8 @@ public class RunningGame implements Screen {
     private StretchViewport viewport;
     public static OrthographicCamera camera;
 
+    public static Sound victory;
+    public static Sound lose;
 
     public static GameLevelManager gameLevelManager;
 
@@ -108,6 +110,9 @@ public class RunningGame implements Screen {
 
 
         eror= Gdx.audio.newSound(Gdx.files.internal("data/sounds/engineer_no01_1.mp3"));
+        victory= Gdx.audio.newSound(Gdx.files.internal("data/levelSounds/victory.mp3"));
+        lose= Gdx.audio.newSound(Gdx.files.internal("data/levelSounds/the-price-is-right-losing-horn_2.mp3"));
+
 
         VIEW_WIDTH = Gdx.graphics.getWidth();
         VIEW_HEIGHT = Gdx.graphics.getHeight();
@@ -234,6 +239,7 @@ public class RunningGame implements Screen {
         }
         if(!stay){
             Shop.state=GuiState.IN_GAME;
+            victory.play();
             levelInit(gameLevelManager.levels.indexOf(currentGameLevel)+1);
         }
 
@@ -244,6 +250,7 @@ public class RunningGame implements Screen {
             }
             if(!restart){
                 Shop.state=GuiState.IN_GAME;
+                lose.play();
                 levelInit(gameLevelManager.levels.indexOf(currentGameLevel));
             }
         }
@@ -275,6 +282,8 @@ public class RunningGame implements Screen {
         Map.realeseTexture.dispose();
         Map.pressTexture.dispose();
         eror.dispose();
+        victory.dispose();
+        lose.dispose();
         Bullet.texture.dispose();
         Bullet.hitmarker.dispose();
         for(GameLevel g:gameLevelManager.levels){

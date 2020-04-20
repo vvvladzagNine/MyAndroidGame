@@ -52,9 +52,6 @@ public class FightStarter {
         ) {
 
             if (Shop.state == GuiState.FIGHTING) {
-                Shop.state = GuiState.IN_GAME;
-                sprite=releasedSprite;
-                RunningGame.currentGameLevel.characters.isFight = false;
             } else {
                 Shop.state = GuiState.FIGHTING;
                 sprite=pressedSprite;

@@ -26,6 +26,11 @@ public class GunnerDuckCharacter extends RangeCharacter {
         for (int i = 1; i < 11; i++)
             animationWalkRightTextures.add(new Texture("data/duck/gunner/walkRight/Strelok_utka_sh"+i+".png"));
 
+        //Walk DOwn
+        animationWalkDownTextures = new ArrayList<>();
+        for (int i = 1; i < 9; i++)
+            animationWalkDownTextures.add(new Texture("data/duck/gunner/walkDown/Strelok_utya_vpered"+i+".png"));
+
         attackReloading=20;
         shotSound =Gdx.audio.newSound(Gdx.files.internal("data/duck/gunner/gunshot.mp3"));;
         bulletSpeed=30;

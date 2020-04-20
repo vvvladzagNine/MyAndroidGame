@@ -61,7 +61,7 @@ public class Bullet extends Actor {
             ){
                 if(c.isAlive()){
                     c.currentHealth-=damage;
-                    c.sound.play();
+                    hitmarker.play();
                     remove();
                 }
 
