@@ -111,6 +111,7 @@ public class WorldMap extends Actor {
         batch.end();
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.setColor(255, 255, 255, 255);
+        renderer.rect(0,0,GAME_WORLD_WIDTH,GAME_WORLD_HEIGHT);
         for (Cell c : cells) {
             if (!c.isPlaced()) c.drawCell(renderer);
         }

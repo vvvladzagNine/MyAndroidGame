@@ -43,8 +43,6 @@ public class Cell {
 
     public void drawCell(ShapeRenderer renderer) {
         if (!isPlaced())
-            renderer.setColor(Color.WHITE);
-            renderer.rect(x, y, width, height);
         if (Shop.state != GuiState.FIGHTING && green) {
             renderer.setColor(Color.GREEN);
             renderer.rect(x,y,width,height);
