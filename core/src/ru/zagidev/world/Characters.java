@@ -14,6 +14,7 @@ import ru.zagidev.sprites.characters.DuckCharacter;
 import ru.zagidev.sprites.characters.GunnerDuckCharacter;
 import ru.zagidev.sprites.characters.GunnerPigeonCharacter;
 import ru.zagidev.sprites.characters.PigeonCharacter;
+import ru.zagidev.sprites.characters.factory.AbstractCharacterFactory;
 
 public class Characters {
     public boolean isFight = false;
@@ -22,8 +23,14 @@ public class Characters {
 
     GameLevel level;
 
+    AbstractCharacterFactory factory;
+
 
     public Characters() {
+    }
+
+    public Characters(AbstractCharacterFactory f) {
+        factory=f;
     }
 
 
@@ -31,15 +38,17 @@ public class Characters {
 
 
 
-    public void init(GameLevel level,List<SavedCharacterObject> characterList ){
+    public void init(GameLevel level,List<SavedCharacterObject> characterList,AbstractCharacterFactory f){
+        if(f!=null)factory=f;
         this.level=level;
         team1= new Team();
         team2= new Team();
+        factory.setTeam(team2);
         for(SavedCharacterObject s:characterList){
             if(!s.isFirstTeam){
                 switch (s.c){
-                    case FISTER: new PigeonCharacter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT,team2,level);break;
-                    case SHOTER: new GunnerPigeonCharacter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT,team2,level);break;
+                    case FISTER: factory.createFister(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT);break;
+                    case SHOTER: factory.createShooter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT);break;
                 }
 
             }
