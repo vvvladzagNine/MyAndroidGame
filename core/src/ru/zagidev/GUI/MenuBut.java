@@ -37,8 +37,7 @@ public class MenuBut {
                         && y > yScreen
                         && y < (yScreen + size * 0.5f)
                 && Shop.state != GuiState.PLACING
-        )
-            {
+        ) {
                 MyAndroidGame.currentScreen=MyAndroidGame.menueScreen;
             }
 

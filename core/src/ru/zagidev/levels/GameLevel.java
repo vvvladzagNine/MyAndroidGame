@@ -11,6 +11,7 @@ import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.RangeCharacter;
 import ru.zagidev.sprites.characters.factory.DuckFactory;
 
+import ru.zagidev.sprites.characters.factory.PigeonFactory;
 import ru.zagidev.world.Characters;
 import ru.zagidev.world.Effects;
 import ru.zagidev.world.WorldMap;
@@ -42,7 +43,7 @@ public class GameLevel {
 
      void fillLevel(List<SavedCharacterObject> characterList){
          characters=new Characters();
-         characters.init(this,characterList,new DuckFactory(this));
+         characters.init(this,characterList,new PigeonFactory(this));
          stage=new Stage(viewport);
      }
 

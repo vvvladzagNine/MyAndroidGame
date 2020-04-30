@@ -30,6 +30,10 @@ public class GUI {
 
 
     public void detectGuiTap(float x, float y) {
+
+        if (Shop.state != GuiState.PLACING)
+            menuBut.pressDetect(x, y);
+
         if (Shop.state == GuiState.PLACING)
             map.pressDetect(x, y);
 
@@ -39,8 +43,6 @@ public class GUI {
         if (Shop.state == GuiState.IN_GAME || Shop.state == GuiState.FIGHTING)
             fightStarter.pressDetect(x, y);
 
-        if (Shop.state != GuiState.PLACING)
-            menuBut.pressDetect(x, y);
     }
 
     public void update() {

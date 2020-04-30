@@ -218,7 +218,7 @@ public class RunningGame implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.09f, 0.40f, 0.09f, 0.5f);
+        Gdx.gl.glClearColor(0.18f, 0.30f, 0.18f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
