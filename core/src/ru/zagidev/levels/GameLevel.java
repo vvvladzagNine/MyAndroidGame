@@ -6,21 +6,15 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.List;
 
-import ru.zagidev.GUI.Map;
-import ru.zagidev.GUI.Shop;
 import ru.zagidev.save.GreenZone;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.RangeCharacter;
-import ru.zagidev.sprites.characters.bullets.Bullet;
 import ru.zagidev.sprites.characters.factory.DuckFactory;
-import ru.zagidev.sprites.characters.factory.PigeonFactory;
-import ru.zagidev.sprites.effects.BloodExplosion;
+
 import ru.zagidev.world.Characters;
 import ru.zagidev.world.Effects;
 import ru.zagidev.world.WorldMap;
-import ru.zagidev.world.blocks.BrickWall;
-import ru.zagidev.world.blocks.Water;
-import ru.zagidev.world.blocks.WoodWall;
+
 
 public class GameLevel {
 
