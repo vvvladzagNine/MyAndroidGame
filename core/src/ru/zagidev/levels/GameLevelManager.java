@@ -47,12 +47,16 @@ public class GameLevelManager {
 
     void loadLevels() {
 
-        loadLevel("675");
+
         loadLevel("26");
+        loadLevel("907");
+        loadLevel("182");
+        loadLevel("741");
+        loadLevel("421");
         loadLevel("146");
         loadLevel("429");
         loadLevel("628");
-
+        loadLevel("675");
 
 
     }
