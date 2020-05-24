@@ -3,7 +3,8 @@ package ru.zagidev.sprites.characters.factory;
 import java.util.logging.Level;
 
 import ru.zagidev.levels.GameLevel;
-import ru.zagidev.sprites.characters.MeleeCharacter;
+import ru.zagidev.sprites.characters.FisterCharacter;
+import ru.zagidev.sprites.characters.KnightCharacter;
 import ru.zagidev.sprites.characters.RangeCharacter;
 import ru.zagidev.world.Team;
 
@@ -36,5 +37,6 @@ public abstract class AbstractCharacterFactory {
     }
 
     public abstract RangeCharacter createShooter(float x, float y);
-    public abstract MeleeCharacter createFister(float x,float y);
+    public abstract FisterCharacter createFister(float x, float y);
+    public abstract KnightCharacter createKnight(float x, float y);
 }

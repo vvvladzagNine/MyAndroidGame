@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import ru.zagidev.levels.GameLevel;
 import ru.zagidev.world.Team;
 
-public class DuckCharacter extends MeleeCharacter {
-    static {
-    }
-
+public class DuckCharacter extends FisterCharacter {
 
     public DuckCharacter(float x, float y, Team team, GameLevel level) {
 

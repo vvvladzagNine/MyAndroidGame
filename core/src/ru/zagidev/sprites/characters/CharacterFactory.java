@@ -17,6 +17,11 @@ public class CharacterFactory {
                     return new GunnerDuckCharacter(x, y, RunningGame.currentGameLevel.characters.team1,RunningGame.currentGameLevel);
                 else if (team == RunningGame.currentGameLevel.characters.team2)
                     return new GunnerPigeonCharacter(x, y, RunningGame.currentGameLevel.characters.team2,RunningGame.currentGameLevel);
+            case KNIGHT:
+                if (team == RunningGame.currentGameLevel.characters.team1)
+                    return new DuckKnightCharacter(x, y, RunningGame.currentGameLevel.characters.team1,RunningGame.currentGameLevel);
+                else if (team == RunningGame.currentGameLevel.characters.team2)
+                    return new PigeonKnightCharacter(x, y, RunningGame.currentGameLevel.characters.team2,RunningGame.currentGameLevel);
             default:
                 return null;
 

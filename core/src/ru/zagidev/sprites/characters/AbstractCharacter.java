@@ -79,6 +79,18 @@ public abstract class AbstractCharacter extends Actor {
 
     public Sound sound;
 
+
+    //sounds of punch
+    // {
+    public static Sound punch1 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/punch/punch.mp3"));
+    public static Sound punch2 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/punch/punch-3.mp3"));
+    public static Sound swordHit1 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/sword/sword-sound-effects-all-sounds-mp3cut_ItfeRU9.mp3"));
+    public static Sound swordHit3 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/sword/drop-sword-soundbible.mp3"));
+    public static Sound swordHit2 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/sword/swoosh-3-soundbible.mp3"));
+    //  }
+
+
+
     public Sound deadSound = Gdx.audio.newSound(Gdx.files.internal("data/sounds/roblox-death-sound_1.mp3"));
 
     protected int changeTargetCoolDown = 20;
@@ -393,5 +405,13 @@ public abstract class AbstractCharacter extends Actor {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + ":  X-" + sp.getX() + " Y-" + sp.getY();
+    }
+
+    public static void dispose(){
+        punch1.dispose();
+        punch2.dispose();
+        swordHit1.dispose();
+        swordHit2.dispose();
+        swordHit3.dispose();
     }
 }

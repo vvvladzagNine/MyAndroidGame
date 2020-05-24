@@ -39,7 +39,8 @@ public class Characters {
 
 
     public void init(GameLevel level,List<SavedCharacterObject> characterList,AbstractCharacterFactory f){
-        if(f!=null)factory=f;
+        if(f!=null)
+            factory=f;
         this.level=level;
         team1= new Team();
         team2= new Team();
@@ -49,6 +50,7 @@ public class Characters {
                 switch (s.c){
                     case FISTER: factory.createFister(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT);break;
                     case SHOTER: factory.createShooter(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT);break;
+                    case KNIGHT: factory.createKnight(s.x*WorldMap.CELL_WIDTH,s.y*WorldMap.CELL_HEIGHT);break;
                 }
 
             }

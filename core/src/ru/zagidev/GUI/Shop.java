@@ -12,7 +12,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.ArrayList;
 
 import ru.zagidev.RunningGame;
+import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.CharacterClass;
+import ru.zagidev.sprites.characters.CharacterFactory;
 import ru.zagidev.world.Characters;
 import ru.zagidev.world.Team;
 
@@ -74,6 +76,23 @@ public class Shop {
     private float xScreen;
     private float yScreen;
 
+    public static boolean isEnoughMoney(){
+        return ((money-currentPrice) >= 0);
+    }
+
+
+
+    public static AbstractCharacter sellCharacter(float x,float y){
+        if(isEnoughMoney()) {
+            Shop.money-=Shop.currentPrice;
+            Shop.cashSound.play();
+            return CharacterFactory.createCharacter(x,y,currentClass,currentTeam);
+        }
+
+        else return null;
+    }
+
+
     public Shop(OrthographicCamera c) {
         cashSound = Gdx.audio.newSound(Gdx.files.internal("data/cash.mp3"));
         noCashSound = Gdx.audio.newSound(Gdx.files.internal("data/wheres-my-money-bitch-.mp3"));
@@ -113,7 +132,7 @@ public class Shop {
 
         arrayList.add(new CharacterShopIcon(t1,t1, CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team1,50));
         arrayList.add(new CharacterShopIcon(t3,t3,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team1,100));
-        arrayList.add(new CharacterShopIcon(t2,t2,CharacterClass.FISTER,RunningGame.currentGameLevel.characters.team2,50));
+        arrayList.add(new CharacterShopIcon(t2,t2,CharacterClass.KNIGHT,RunningGame.currentGameLevel.characters.team1,80));
         arrayList.add(new CharacterShopIcon(t4,t4,CharacterClass.SHOTER,RunningGame.currentGameLevel.characters.team2,100));
 
         icon1 = arrayList.get(0);

@@ -21,6 +21,23 @@ import static ru.zagidev.world.blocks.BlockFactory.createPlaceable;
 
 public class WorldMap extends Actor {
 
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.end();
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.setColor(255, 255, 255, 255);
+        renderer.rect(0,0,GAME_WORLD_WIDTH,GAME_WORLD_HEIGHT);
+        for (Cell c : cells) {
+            if (!c.isPlaced()) c.drawCell(renderer);
+        }
+        renderer.setProjectionMatrix(RunningGame.camera.combined);
+        renderer.end();
+        batch.begin();
+        for (Cell c : cells) {
+            if (c.isPlaced()) c.drawPlaceable(batch);
+        }
+    }
+
     public  float GAME_WORLD_WIDTH;
     public  float GAME_WORLD_HEIGHT;
 
@@ -94,9 +111,6 @@ public class WorldMap extends Actor {
 
     }
 
-
-
-
     public void addPlaceable(BlockType name, int x, int y) {
         matrix[x][y].justPlace(createPlaceable(name, matrix[x][y]));
     }
@@ -106,24 +120,28 @@ public class WorldMap extends Actor {
     }
 
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.end();
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.setColor(255, 255, 255, 255);
-        renderer.rect(0,0,GAME_WORLD_WIDTH,GAME_WORLD_HEIGHT);
-        for (Cell c : cells) {
-            if (!c.isPlaced()) c.drawCell(renderer);
-        }
-        renderer.setProjectionMatrix(RunningGame.camera.combined);
-        renderer.end();
-        batch.begin();
-        for (Cell c : cells) {
-            if (c.isPlaced()) c.drawPlaceable(batch);
-        }
-    }
+
+
+
+
+
+
 
     public void act(float delta) {
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

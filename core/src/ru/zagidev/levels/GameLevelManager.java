@@ -49,10 +49,10 @@ public class GameLevelManager {
 
 
         loadLevel("26");
-        loadLevel("907");
         loadLevel("182");
         loadLevel("741");
         loadLevel("421");
+        loadLevel("907");
         loadLevel("146");
         loadLevel("429");
         loadLevel("628");
@@ -67,6 +67,7 @@ public class GameLevelManager {
         switch (s){
             case "FISTER":return CharacterClass.FISTER;
             case "SHOTER":return CharacterClass.SHOTER;
+            case "KNIGHT":return CharacterClass.KNIGHT;
             default:return CharacterClass.FISTER;
         }
     }

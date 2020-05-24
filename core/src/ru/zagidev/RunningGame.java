@@ -6,14 +6,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-
-import javax.swing.Renderer;
 
 import ru.zagidev.GUI.GUI;
 import ru.zagidev.GUI.GuiState;
@@ -25,13 +21,10 @@ import ru.zagidev.levels.GameLevelManager;
 import ru.zagidev.save.GreenZone;
 import ru.zagidev.sprites.characters.AbstractCharacter;
 import ru.zagidev.sprites.characters.CharacterFactory;
-import ru.zagidev.sprites.characters.RangeCharacter;
 import ru.zagidev.sprites.characters.bullets.Bullet;
 import ru.zagidev.sprites.effects.BloodExplosion;
 import ru.zagidev.sprites.objects.Block;
-import ru.zagidev.world.Characters;
 import ru.zagidev.world.Effects;
-import ru.zagidev.world.WorldMap;
 import ru.zagidev.world.blocks.BrickWall;
 import ru.zagidev.world.blocks.Water;
 import ru.zagidev.world.blocks.WoodWall;
@@ -153,7 +146,7 @@ public class RunningGame implements Screen {
         currentGameLevel.stage.addActor(currentGameLevel.effects);
 
         camera.zoom = 1.5f;
-
+        currentGameLevel.stage.setDebugAll(true);
         Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
 
             @Override
@@ -176,26 +169,33 @@ public class RunningGame implements Screen {
             public void tap(float x, float y, int count) {
                 if(x<Gdx.graphics.getWidth()-200)
                     if(Shop.state== GuiState.PLACING){
-                        Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
-                        Point point = getMatricsCords(v.x,v.y);
-                        if(v.x<currentGameLevel.worldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<currentGameLevel.worldMap.GAME_WORLD_HEIGHT-50 && v.y>50
-                            && (isInGreen(point)) && ((Shop.money-Shop.currentPrice) >= 0)
-                        ){
-                            AbstractCharacter c = CharacterFactory.createCharacter(v.x,v.y,Shop.currentClass,Shop.currentTeam);
-                            Shop.money-=Shop.currentPrice;
-                            Shop.cashSound.play();
-                            currentGameLevel.stage.addActor(c);
-                        }
-                        else {
-                            eror.play();
-                        }
-
+                        buyCharacter();
                     }
                 gui.detectGuiTap(x, y);
             }
         }));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("data/music/undertale-megalovania-mp3cut.mp3"));
+    }
+
+    private void buyCharacter() {
+        Vector3 v = camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+        Point point = getMatricsCords(v.x,v.y);
+        if(v.x<currentGameLevel.worldMap.GAME_WORLD_WIDTH-50 && v.x>50 && v.y<currentGameLevel.worldMap.GAME_WORLD_HEIGHT-50 && v.y>50
+            && (isInGreen(point))
+        ){
+            //AbstractCharacter c = CharacterFactory.createCharacter(v.x,v.y,Shop.currentClass,Shop.currentTeam);
+            AbstractCharacter c = Shop.sellCharacter(v.x,v.y);
+            if(c!=null){
+                currentGameLevel.stage.addActor(c);
+            }
+            else {
+                eror.play();
+            }
+        }
+        else {
+            eror.play();
+        }
     }
 
     public boolean isInGreen(Point p){
@@ -282,6 +282,7 @@ public class RunningGame implements Screen {
         lose.dispose();
         Bullet.texture.dispose();
         Bullet.hitmarker.dispose();
+        AbstractCharacter.dispose();
         for(GameLevel g:gameLevelManager.levels){
             g.dispose();
         }

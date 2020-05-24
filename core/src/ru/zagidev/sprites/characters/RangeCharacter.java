@@ -83,7 +83,6 @@ public abstract class RangeCharacter extends AbstractCharacter {
                 setNearestEnemyAsATarget();
             }
             if (target != null) {
-                //float d = realDist(target);
                 float angle = isAimed(target);
                 if (angle != -123456789) {
                     if (target.isAlive()) {

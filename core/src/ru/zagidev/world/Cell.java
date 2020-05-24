@@ -9,6 +9,20 @@ import ru.zagidev.GUI.Shop;
 import ru.zagidev.world.blocks.Placeable;
 
 public class Cell {
+
+    public void drawCell(ShapeRenderer renderer) {
+        if (!isPlaced())
+            if (Shop.state != GuiState.FIGHTING && green) {
+                renderer.setColor(Color.GREEN);
+                renderer.rect(x,y,width,height);
+                renderer.rect(x+8,y+8,width-16,height-16);
+            }
+            else {
+                renderer.setColor(Color.WHITE);
+                renderer.rect(x,y,width,height);
+            }
+    }
+
     public float centerX;
     public float centerY;
     public float x;
@@ -41,20 +55,7 @@ public class Cell {
         return placeable != null;
     }
 
-    public void drawCell(ShapeRenderer renderer) {
-        if (!isPlaced())
-        if (Shop.state != GuiState.FIGHTING && green) {
-            renderer.setColor(Color.GREEN);
-            renderer.rect(x,y,width,height);
-            renderer.rect(x+8,y+8,width-16,height-16);
-        }
-        else {
-            renderer.setColor(Color.WHITE);
-            renderer.rect(x,y,width,height);
-        }
 
-
-    }
 
     public void drawPlaceable(Batch batch) {
         if (isPlaced())

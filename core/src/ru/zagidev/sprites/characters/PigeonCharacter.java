@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import ru.zagidev.levels.GameLevel;
 import ru.zagidev.world.Team;
 
-public class PigeonCharacter extends MeleeCharacter {
+public class PigeonCharacter extends FisterCharacter {
     static {
 
 
