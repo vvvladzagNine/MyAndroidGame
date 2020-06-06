@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 
 import ru.zagidev.levels.GameLevel;
+import ru.zagidev.sprites.characters.behaviors.RangeAttack;
 import ru.zagidev.world.Team;
 
 public class GunnerDuckCharacter extends RangeCharacter {
@@ -31,11 +32,9 @@ public class GunnerDuckCharacter extends RangeCharacter {
         for (int i = 1; i < 9; i++)
             animationWalkDownTextures.add(new Texture("data/duck/gunner/walkDown/Strelok_utya_vpered"+i+".png"));
 
-        attackReloading=20;
-        shotSound =Gdx.audio.newSound(Gdx.files.internal("data/duck/gunner/gunshot.mp3"));;
-        bulletSpeed=30;
-        rayColor= Color.RED;
+
         adjustClass(x, y, team,"data/duck/sound/quack.mp3",2,600,100,85);
+
 
     }
 

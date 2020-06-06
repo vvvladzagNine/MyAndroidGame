@@ -1,19 +1,15 @@
 package ru.zagidev.sprites.characters;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
 import ru.zagidev.levels.GameLevel;
+import ru.zagidev.sprites.characters.behaviors.RangeAttack;
 import ru.zagidev.world.Team;
 
 public class PigeonCharacter extends FisterCharacter {
-    static {
-
-
-    }
-
-
 
     public PigeonCharacter(float x, float y, Team team, GameLevel level) {
         this.level=level;

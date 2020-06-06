@@ -1,10 +1,12 @@
 package ru.zagidev.sprites.characters;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
 import ru.zagidev.levels.GameLevel;
+import ru.zagidev.sprites.characters.behaviors.MeleeAttack;
 import ru.zagidev.world.Team;
 
 public class PigeonKnightCharacter extends KnightCharacter {
@@ -36,7 +38,10 @@ public class PigeonKnightCharacter extends KnightCharacter {
         animationFightTextures = new ArrayList<>();
 
 
+
+
         adjustClass(x, y, team,"data/pigeon/pigeon.mp3",1,1700,120,80);
+        attackBehavior.attackSound=AbstractCharacter.swordHit2;
     }
 
     @Override

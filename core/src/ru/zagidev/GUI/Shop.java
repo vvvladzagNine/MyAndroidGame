@@ -43,7 +43,6 @@ public class Shop {
     public float incon2X;
     public CharacterShopIcon icon3;
     public float incon3X;
-    public CharacterShopIcon icon4;
     public float incon4X;
 
     public Sprite strelochka;
@@ -138,7 +137,6 @@ public class Shop {
         icon1 = arrayList.get(0);
         icon2 = arrayList.get(1);
         icon3 = arrayList.get(2);
-        icon4 = arrayList.get(3);
 
         str1=new Texture("ui/strelochka.png");
         str2=new Texture("ui/strelochkaLeft.png");
@@ -183,10 +181,10 @@ public class Shop {
                 if(money>=50)
                 icon3.press();
                 else noCashSound.play();
-            if(x > incon4X && x < (incon4X + iconWidth * 0.5f) && y > inconY && y < (inconY + iconHeight * 0.5f))
-                if(money>=50)
-                icon4.press();
-                else noCashSound.play();
+//            if(x > incon4X && x < (incon4X + iconWidth * 0.5f) && y > inconY && y < (inconY + iconHeight * 0.5f))
+//                if(money>=50)
+//                icon4.press();
+//                else noCashSound.play();
 
         }
     }
@@ -201,7 +199,7 @@ public class Shop {
             icon1.sp.draw(batch);
             icon2.sp.draw(batch);
             icon3.sp.draw(batch);
-            icon4.sp.draw(batch);
+//            icon4.sp.draw(batch);
             strelochka.draw(batch);
             strelochkaLeft.draw(batch);
 
@@ -266,11 +264,11 @@ public class Shop {
 //                (Gdx.graphics.getWidth() * z * 0.25f) - iconWidth * icon1.sp.getScaleX()/2 -iconInterval * 2.5f * z - icon2.sp.getWidth() * icon2.sp.getScaleX() * 2 - (iconWidth - iconWidth * icon2.sp.getScaleX()) / 2,
                 y);
 
-        icon4.sp.setScale(z * 0.5f);
-        icon4.sp.setPosition(
-                getXXX(z,3,3),
-//                (Gdx.graphics.getWidth() * z * 0.25f) - iconWidth * icon1.sp.getScaleX()/2 -iconInterval * 1.5f * z - icon3.sp.getWidth() * icon3.sp.getScaleX() - (iconWidth - iconWidth * icon3.sp.getScaleX()) / 2,
-                y);
+//        icon4.sp.setScale(z * 0.5f);
+//        icon4.sp.setPosition(
+//                getXXX(z,3,3),
+////                (Gdx.graphics.getWidth() * z * 0.25f) - iconWidth * icon1.sp.getScaleX()/2 -iconInterval * 1.5f * z - icon3.sp.getWidth() * icon3.sp.getScaleX() - (iconWidth - iconWidth * icon3.sp.getScaleX()) / 2,
+//                y);
 
         icon3.sp.setScale(z * 0.5f);
         icon3.sp.setPosition(

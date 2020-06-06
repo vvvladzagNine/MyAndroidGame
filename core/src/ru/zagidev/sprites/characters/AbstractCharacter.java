@@ -15,6 +15,7 @@ import ru.zagidev.Point;
 import ru.zagidev.RunningGame;
 import ru.zagidev.levels.GameLevel;
 import ru.zagidev.logic.WaveAlgorithm;
+import ru.zagidev.sprites.characters.behaviors.AttackBehavior;
 import ru.zagidev.world.Team;
 import ru.zagidev.world.WorldMap;
 
@@ -22,6 +23,14 @@ import static ru.zagidev.RunningGame.getMatricsCords;
 import static ru.zagidev.RunningGame.getRealCords;
 
 public abstract class AbstractCharacter extends Actor {
+
+
+    AttackBehavior attackBehavior;
+
+    public  void attack(){
+        attackBehavior.attack();
+    }
+
 
     public GameLevel level;
 
@@ -41,21 +50,19 @@ public abstract class AbstractCharacter extends Actor {
     public float currentHealth;
     protected float lastHealth;
     public boolean followTarget = true;
-    protected int attackReloading = 25;
-    protected int currentAttackReloadingState = 0;
-    protected float damage = 200;
+
 
     protected static ShapeRenderer renderer;
 
 
     protected int animationDelay = 5;
 
-    protected int currentAnimWalk = 0;
-    protected int pastAnimWalk = 0;
-    protected ArrayList<Sprite> animationWalk;
-    protected ArrayList<Sprite> animationWalkRight;
-    protected ArrayList<Sprite> animationWalkDown;
-    protected ArrayList<Sprite> animationWalkUp;
+    public int currentAnimWalk = 0;
+    public int pastAnimWalk = 0;
+    public ArrayList<Sprite> animationWalk;
+    public ArrayList<Sprite> animationWalkRight;
+    public ArrayList<Sprite> animationWalkDown;
+    public ArrayList<Sprite> animationWalkUp;
     public ArrayList<Texture> animationWalkRightTextures;
     public ArrayList<Texture> animationWalkDownTextures;
     public ArrayList<Texture> animationWalkUpTextures;
@@ -80,6 +87,8 @@ public abstract class AbstractCharacter extends Actor {
     public Sound sound;
 
 
+
+
     //sounds of punch
     // {
     public static Sound punch1 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/punch/punch.mp3"));
@@ -87,6 +96,8 @@ public abstract class AbstractCharacter extends Actor {
     public static Sound swordHit1 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/sword/sword-sound-effects-all-sounds-mp3cut_ItfeRU9.mp3"));
     public static Sound swordHit3 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/sword/drop-sword-soundbible.mp3"));
     public static Sound swordHit2 = Gdx.audio.newSound(Gdx.files.internal("data/sounds/sword/swoosh-3-soundbible.mp3"));
+    public static Sound shot1 = Gdx.audio.newSound(Gdx.files.internal("data/duck/gunner/gunshot.mp3"));
+    public static Sound shot2 = Gdx.audio.newSound(Gdx.files.internal("data/pigeon/gunner/gunshot2.mp3"));
     //  }
 
 
@@ -210,7 +221,7 @@ public abstract class AbstractCharacter extends Actor {
         return waveAlgorithm.computeDist(getMatricsCords((int) getCenterX(), (int) getCenterY()), getMatricsCords(character.getCenterX(), character.getCenterY()));
     }
 
-    public abstract void attack();
+
 
 
     protected AbstractCharacter getNearestEnemy() {
@@ -334,7 +345,6 @@ public abstract class AbstractCharacter extends Actor {
             setEnemyTeam();
         }
         this.price=price;
-        this.damage=damage;
         this.speed = speed;
         path = new ArrayList<>();
         waveAlgorithm = new WaveAlgorithm(this);

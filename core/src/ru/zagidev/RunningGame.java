@@ -139,6 +139,8 @@ public class RunningGame implements Screen {
          * character creating
          */
 
+        Bullet.removeAllBullets();
+
         currentGameLevel.stage.addActor(currentGameLevel.worldMap);
 
         currentGameLevel.characters.fillStage(currentGameLevel.stage);
@@ -283,6 +285,13 @@ public class RunningGame implements Screen {
         Bullet.texture.dispose();
         Bullet.hitmarker.dispose();
         AbstractCharacter.dispose();
+        AbstractCharacter.punch1.dispose();
+        AbstractCharacter.punch2.dispose();
+        AbstractCharacter.swordHit1.dispose();
+        AbstractCharacter.swordHit2.dispose();
+        AbstractCharacter.swordHit3.dispose();
+        AbstractCharacter.shot1.dispose();
+        AbstractCharacter.shot2.dispose();
         for(GameLevel g:gameLevelManager.levels){
             g.dispose();
         }

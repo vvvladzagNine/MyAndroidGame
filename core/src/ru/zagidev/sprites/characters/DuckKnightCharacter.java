@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 
 import ru.zagidev.levels.GameLevel;
+import ru.zagidev.sprites.characters.behaviors.MeleeAttack;
 import ru.zagidev.world.Team;
 
 public class DuckKnightCharacter extends KnightCharacter {

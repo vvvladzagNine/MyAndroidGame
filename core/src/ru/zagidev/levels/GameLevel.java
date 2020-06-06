@@ -58,9 +58,7 @@ public class GameLevel {
             for(Texture t :c.animationWalkDownTextures) t.dispose();
             for(Texture t :c.animationWalkUpTextures) t.dispose();
             for(Texture t :c.animationFightTextures) t.dispose();
-            if(c instanceof RangeCharacter){
-                ((RangeCharacter) c).shotSound.dispose();
-            }
+
         }
         for(AbstractCharacter c: characters.team2.getMembers()){
             c.texture.dispose();
@@ -72,9 +70,7 @@ public class GameLevel {
             for(Texture t :c.animationWalkDownTextures) t.dispose();
             for(Texture t :c.animationWalkUpTextures) t.dispose();
             for(Texture t :c.animationFightTextures) t.dispose();
-            if(c instanceof RangeCharacter){
-                ((RangeCharacter) c).shotSound.dispose();
-            }
+
         }
     }
 }

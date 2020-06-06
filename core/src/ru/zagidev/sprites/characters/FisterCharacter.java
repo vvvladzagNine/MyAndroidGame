@@ -1,11 +1,14 @@
 package ru.zagidev.sprites.characters;
 
-public abstract class FisterCharacter extends MeleeCharacter {
+import ru.zagidev.sprites.characters.behaviors.MeleeAttack;
+import ru.zagidev.world.Team;
+
+public abstract class FisterCharacter extends AbstractCharacter {
+
     @Override
-    public void playPunchSound() {
-        if (Math.random() > 0.5)
-            punch1.play();
-        else
-            punch2.play();
+    public void adjustClass(float x, float y, Team team, String soundPath, float speed, float maxHealth, float damage, int price) {
+        super.adjustClass(x, y, team, soundPath, speed, maxHealth, damage, price);
+        attackBehavior= new MeleeAttack(100,this, AbstractCharacter.punch1);
+
     }
 }

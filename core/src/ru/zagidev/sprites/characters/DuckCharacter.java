@@ -1,10 +1,12 @@
 package ru.zagidev.sprites.characters;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
 import ru.zagidev.levels.GameLevel;
+import ru.zagidev.sprites.characters.behaviors.MeleeAttack;
 import ru.zagidev.world.Team;
 
 public class DuckCharacter extends FisterCharacter {
@@ -34,6 +36,7 @@ public class DuckCharacter extends FisterCharacter {
         for (int i = 1; i < 10; i++)
             animationWalkUpTextures.add(new Texture("data/duck/fister/walkUp/utya_nazad" + i + ".png"));
         animationFightTextures = new ArrayList<>();
+
 
 
         adjustClass(x, y, team,"data/duck/sound/quack.mp3",2,1000,100,50);
